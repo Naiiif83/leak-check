@@ -134,6 +134,12 @@ button.ghost { background: transparent; color: var(--accent); }
 button.link { background: none; border: 0; color: var(--muted); font-weight: 500; padding: 6px; width: auto; text-decoration: underline; text-underline-offset: 3px; }
 .row-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 
+.dialbox { display: grid; gap: 12px; }
+.dialsel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; direction: ltr; }
+.dialsel select { font: 600 1.3rem var(--mono); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px; width: 100%; text-align: center; }
+.dialsel .field > span { font-size: .8rem; direction: ltr; text-align: center; }
+.dialhelp { display: flex; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.dialsvg { flex: none; color: var(--ink); }
 .timer { text-align: center; display: grid; gap: 4px; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
 .timer b { font-family: var(--mono); font-size: 2.4rem; font-variant-numeric: tabular-nums; direction: ltr; }
 .bar { height: 8px; border-radius: 4px; background: var(--sunk); overflow: hidden; }
@@ -223,9 +229,22 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
     <div class="dials" id="dials1"></div>
     <div class="meter-label">الأرقام السوداء، بعدها الحمراء</div>
   </div>
-  <label class="field"><span>رقم العدّاد (اكتب الأسود، بعدين نقطة، بعدين الأحمر)</span>
+  <div class="dialhelp" data-dialhelp hidden>
+    <svg viewBox="0 0 100 100" width="96" height="96" aria-hidden="true" class="dialsvg"></svg>
+    <p class="small">لكل عقرب اكتب الرقم اللي <b>عدّاه</b> العقرب. إذا بين 3 و 4 اكتب 3. العقارب مكتوب جنبها ×0.1 و ×0.01 و ×0.001، ولو فيه عقرب رابع (×0.0001) تجاهله.</p>
+  </div>
+  <label class="field" id="digits1"><span>رقم العدّاد (اكتب الأسود، بعدين نقطة، بعدين الأحمر)</span>
     <input type="text" class="numin" id="r1" inputmode="decimal" autocomplete="off" placeholder="1234.567"></label>
   <p class="err" id="r1err" hidden>اكتب أرقام بس، مثل 1234.567</p>
+  <div class="dialbox" id="dialbox1" data-r="r1" hidden>
+    <label class="field"><span>الأرقام السوداء</span><input type="text" class="numin" id="black1" data-part="black" inputmode="numeric" autocomplete="off" placeholder="1234"></label>
+    <div class="dialsel">
+      <label class="field"><span>عقرب ×0.1</span><select id="d1a" data-part="0"></select></label>
+      <label class="field"><span>عقرب ×0.01</span><select id="d1b" data-part="1"></select></label>
+      <label class="field"><span>عقرب ×0.001</span><select id="d1c" data-part="2"></select></label>
+    </div>
+  </div>
+  <button type="button" class="link" data-meter-toggle>عدّادك فيه عقارب حمراء بدل الأرقام؟</button>
   <button type="button" id="start" disabled>سجّلت الرقم، ابدأ الساعة</button>
   <div class="row-actions"><button type="button" class="link" data-back>رجوع</button></div>
 </section>
@@ -244,9 +263,18 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
     <div class="dials" id="dials2"></div>
     <div class="meter-label">الأرقام السوداء، بعدها الحمراء</div>
   </div>
-  <label class="field"><span>رقم العدّاد الحين</span>
+  <label class="field" id="digits2"><span>رقم العدّاد الحين</span>
     <input type="text" class="numin" id="r2" inputmode="decimal" autocomplete="off" placeholder="1234.567"></label>
   <p class="err" id="r2err" hidden></p>
+  <div class="dialbox" id="dialbox2" data-r="r2" hidden>
+    <label class="field"><span>الأرقام السوداء</span><input type="text" class="numin" id="black2" data-part="black" inputmode="numeric" autocomplete="off" placeholder="1234"></label>
+    <div class="dialsel">
+      <label class="field"><span>عقرب ×0.1</span><select id="d2a" data-part="0"></select></label>
+      <label class="field"><span>عقرب ×0.01</span><select id="d2b" data-part="1"></select></label>
+      <label class="field"><span>عقرب ×0.001</span><select id="d2c" data-part="2"></select></label>
+    </div>
+  </div>
+  <button type="button" class="link" data-meter-toggle>عدّادك فيه عقارب حمراء بدل الأرقام؟</button>
   <button type="button" id="finish" disabled>شوف النتيجة</button>
   <div class="row-actions">
     <button type="button" class="link" data-back>رجوع</button>
@@ -355,7 +383,7 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
   const TRI = [['skip', 'ما فحصت'], ['ok', 'سليم'], ['bad', 'فيه تسرّب']];
 
   const fresh = () => ({ step: 1, system: 'tank', r1: '', t1: '', r2: '', t2: '',
-    usual: 25, sewer: true, tariff: JSON.parse(JSON.stringify(DEFAULT_TARIFF)), checks: {}, lead: {}, leadOpen: false });
+    meterType: 'digits', usual: 25, sewer: true, tariff: JSON.parse(JSON.stringify(DEFAULT_TARIFF)), checks: {}, lead: {}, leadOpen: false });
   let state;
   try { state = JSON.parse(localStorage.getItem(KEY)); } catch (e) { state = null; }
   state = Object.assign(fresh(), state || {});
@@ -506,6 +534,44 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
       : 'تقدر تسكّر الصفحة وترجع، الوقت محفوظ.';
   }
 
+  // عدّادات بعقارب: يركّب القراءة من الأسود + ثلاث عقارب
+  const PARTS = { r1: 1, r2: 2 };
+  function composeDial(n) {
+    const black = latinDigits($('black' + n).value).replace(/[^\d]/g, '');
+    if (!black) return '';
+    return black + '.' + ['a', 'b', 'c'].map(k => $('d' + n + k).value).join('');
+  }
+  function fillDial(n, r) {
+    const v = num(r);
+    const [ip, fp] = isFinite(v) ? v.toFixed(3).split('.') : ['', '000'];
+    $('black' + n).value = ip;
+    ['a', 'b', 'c'].forEach((k, i) => { $('d' + n + k).value = fp[i]; });
+  }
+  function dialSVG(svg) {
+    const pt = (n, r) => { const a = (n * 36 - 90) * Math.PI / 180; return [50 + r * Math.cos(a), 50 + r * Math.sin(a)]; };
+    let h = '<circle cx="50" cy="50" r="46" fill="var(--surface)" stroke="currentColor" stroke-width="2"/>';
+    for (let n = 0; n < 10; n++) { const [x, y] = pt(n, 35); h += `<text x="${x}" y="${y}" font-size="12" font-family="IBM Plex Mono, monospace" text-anchor="middle" dominant-baseline="central" fill="currentColor">${n}</text>`; }
+    const [px, py] = pt(3.5, 26);
+    h += `<line x1="50" y1="50" x2="${px}" y2="${py}" stroke="var(--meter-red)" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="50" r="5" fill="var(--meter-red)"/>`;
+    svg.innerHTML = h;
+  }
+  function prefillBlack2() {
+    if (!String(state.r2).trim() && isFinite(num(state.r1))) $('black2').value = Math.floor(num(state.r1));
+  }
+  function applyMeterType() {
+    const dials = state.meterType === 'dials';
+    [1, 2].forEach(n => {
+      $('digits' + n).hidden = dials; $('dialbox' + n).hidden = !dials;
+    });
+    document.querySelectorAll('[data-dialhelp]').forEach(el => { el.hidden = !dials; });
+    document.querySelectorAll('[data-meter-toggle]').forEach(b => {
+      b.textContent = dials ? 'عدّادي يعرض أرقام حمراء' : 'عدّادك فيه عقارب حمراء بدل الأرقام؟';
+    });
+    document.querySelectorAll('.meter-label').forEach(el => {
+      el.textContent = dials ? 'قراءتك بالأرقام: الأسود، بعدها العقارب' : 'الأرقام السوداء، بعدها الحمراء';
+    });
+  }
+
   function render() {
     renderMeter($('dials1'), num(state.r1));
     renderMeter($('dials2'), isFinite(num(state.r2)) ? num(state.r2) : num(state.r1));
@@ -553,8 +619,22 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
   }));
   document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => show(state.step - 1)));
 
+  document.querySelectorAll('.dialbox select').forEach(sel => {
+    sel.innerHTML = [...Array(10)].map((_, i) => `<option value="${i}">${i}</option>`).join('');
+  });
+  document.querySelectorAll('.dialsvg').forEach(dialSVG);
+  document.querySelectorAll('.dialbox').forEach(box => box.addEventListener('input', () => {
+    const rk = box.dataset.r;
+    state[rk] = composeDial(PARTS[rk]); $(rk).value = state[rk]; save(); render();
+  }));
+  document.querySelectorAll('[data-meter-toggle]').forEach(b => b.addEventListener('click', () => {
+    state.meterType = state.meterType === 'dials' ? 'digits' : 'dials';
+    fillDial(1, state.r1); fillDial(2, state.r2); prefillBlack2();
+    save(); applyMeterType(); render();
+  }));
   $('r1').addEventListener('input', () => { state.r1 = $('r1').value; save(); render(); });
   $('start').addEventListener('click', () => {
+    prefillBlack2();
     state.t1 = toLocalInput(Date.now()); $('t1').value = state.t1; show(3);
   });
   $('r2').addEventListener('input', () => { state.r2 = $('r2').value; save(); render(); });
@@ -588,7 +668,7 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
   $('reset').addEventListener('click', () => { $('confirmReset').hidden = false; });
   $('resetNo').addEventListener('click', () => { $('confirmReset').hidden = true; });
   $('resetYes').addEventListener('click', () => {
-    const keep = { usual: state.usual, sewer: state.sewer, tariff: state.tariff, lead: state.lead };
+    const keep = { meterType: state.meterType, usual: state.usual, sewer: state.sewer, tariff: state.tariff, lead: state.lead };
     state = Object.assign(fresh(), keep);
     $('confirmReset').hidden = true;
     fill(); show(1);
@@ -596,6 +676,7 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
 
   function fill() {
     $('r1').value = state.r1; $('r2').value = state.r2; $('t1').value = state.t1;
+    fillDial(1, state.r1); fillDial(2, state.r2); applyMeterType();
     $('lPhone').value = state.lead.phone || ''; $('lCity').value = state.lead.city || '';
     $('lDistrict').value = state.lead.district || ''; $('lName').value = state.lead.name || '';
     $('lConsent').checked = !!state.lead.consent;
