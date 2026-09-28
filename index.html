@@ -62,319 +62,275 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font: 16px/1.7 var(--body);
+  font: 17px/1.7 var(--body);
   padding-inline: 16px;
-  padding-block: 24px 64px;
+  padding-block: 20px 56px;
 }
-.wrap { max-width: 680px; margin-inline: auto; display: grid; gap: 20px; }
+.wrap { max-width: 520px; margin-inline: auto; display: grid; gap: 18px; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.3; text-wrap: balance; margin: 0; }
-h1 { font-size: 1.75rem; }
-h2 { font-size: 1.2rem; }
+h1 { font-size: 1.7rem; }
+h2 { font-size: 1.15rem; }
 h3 { font-size: 1rem; }
 p { margin: 0; }
 .muted { color: var(--muted); }
 .small { font-size: .875rem; }
 
-header { display: grid; gap: 12px; }
-header p { max-width: 60ch; }
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.brand { font-family: var(--display); font-weight: 500; font-size: .95rem; color: var(--muted); }
+.dots { display: flex; gap: 6px; direction: rtl; }
+.dots span { width: 22px; height: 6px; border-radius: 3px; background: var(--line); }
+.dots span.on { background: var(--accent); }
+
+.screen { display: grid; gap: 16px; }
+
+.choice {
+  display: grid; gap: 4px; text-align: right; width: 100%;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  padding: 16px 18px; font: inherit; cursor: pointer;
+}
+.choice b { font-family: var(--display); font-size: 1.1rem; }
+.choice span { color: var(--muted); font-size: .9rem; }
+.choice:hover { border-color: var(--accent); }
+
+ul.do { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+ul.do li { display: flex; gap: 10px; align-items: baseline; }
+ul.do li::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); transform: translateY(-2px); }
+
+.note { border-radius: 12px; padding: 12px 14px; font-size: .9rem; }
+.note.warn { background: var(--warn-bg); color: var(--ink); }
+.note.warn b { color: var(--warn); }
 
 .meter {
-  background: var(--meter-body);
-  border-radius: 14px;
-  padding: 14px 16px 10px;
-  display: grid;
-  gap: 6px;
-  justify-items: center;
-  direction: ltr;
+  background: var(--meter-body); border-radius: 14px; padding: 14px 12px 10px;
+  display: grid; gap: 6px; justify-items: center; direction: ltr;
 }
 .dials { display: flex; gap: 3px; }
 .dial {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 1.6rem;
-  width: 1.35em;
-  text-align: center;
-  background: var(--meter-digit);
-  color: #111;
-  border-radius: 4px;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--mono); font-weight: 600; font-size: 1.65rem; width: 1.3em; text-align: center;
+  background: var(--meter-digit); color: #111; border-radius: 4px; font-variant-numeric: tabular-nums;
 }
 .dial.red { background: var(--meter-red); color: #fff; }
 .dial-gap { width: 6px; }
-.meter-label { font-family: var(--mono); font-size: .75rem; color: #9fb1b7; letter-spacing: .08em; }
+.meter-label { font-size: .75rem; color: #9fb1b7; direction: rtl; }
 
-section.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 20px 18px;
-  display: grid;
-  gap: 14px;
-}
-.step-head { display: flex; gap: 10px; align-items: baseline; }
-.step-no {
-  font-family: var(--mono);
-  font-size: .8rem;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 999px;
-  padding: 0 8px;
-  flex: none;
-}
-ol.howto { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 6px; }
-
-.seg { display: flex; flex-wrap: wrap; gap: 8px; }
-.seg label {
-  flex: 1 1 200px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 12px;
-  cursor: pointer;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  background: var(--surface);
-}
-.seg label:has(input:checked) { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.seg input { margin-top: .45em; accent-color: var(--accent); }
-.seg b { display: block; font-weight: 600; }
-
-.readings { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-.reading { background: var(--sunk); border-radius: 10px; padding: 12px; display: grid; gap: 8px; }
-.field { display: grid; gap: 4px; }
-.field > span { font-size: .875rem; color: var(--muted); }
-.row { display: flex; gap: 8px; }
-.row > input { flex: 1; min-width: 0; }
+.field { display: grid; gap: 6px; }
+.field > span { font-size: .9rem; color: var(--muted); }
 input[type="datetime-local"], input[type="text"] {
-  font: inherit;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 8px 10px;
-  width: 100%;
+  font: inherit; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%;
 }
-input.numin { font-family: var(--mono); direction: ltr; text-align: left; font-variant-numeric: tabular-nums; }
-input:focus-visible, button:focus-visible, label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+input.numin { font-family: var(--mono); direction: ltr; text-align: center; font-size: 1.5rem; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+input.numin.sm { font-size: 1rem; text-align: left; padding: 4px 6px; max-width: 90px; }
+input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-button {
-  font: inherit;
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: var(--accent-ink);
+button, a.btn {
+  font: inherit; font-weight: 600; border-radius: 12px; padding: 13px 18px; cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+  text-align: center; text-decoration: none; display: block; width: 100%;
 }
+button:disabled, a.btn[aria-disabled="true"] { opacity: .4; cursor: default; pointer-events: none; }
 button.ghost { background: transparent; color: var(--accent); }
-a.btn {
-  font-weight: 600; border-radius: 8px; padding: 8px 14px; text-decoration: none;
-  background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent);
-}
-a.btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
-button.tiny { padding: 4px 10px; font-size: .85rem; }
+button.link { background: none; border: 0; color: var(--muted); font-weight: 500; padding: 6px; width: auto; text-decoration: underline; text-underline-offset: 3px; }
+.row-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 
-.verdict { border-radius: 10px; padding: 14px; display: grid; gap: 6px; }
-.verdict.ok { background: var(--ok-bg); color: var(--ok); }
-.verdict.warn { background: var(--warn-bg); color: var(--warn); }
-.verdict.bad { background: var(--bad-bg); color: var(--bad); }
-.verdict.none { background: var(--sunk); color: var(--muted); }
-.verdict h3 { color: inherit; }
-.verdict p { color: var(--ink); }
+.timer { text-align: center; display: grid; gap: 4px; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.timer b { font-family: var(--mono); font-size: 2.4rem; font-variant-numeric: tabular-nums; direction: ltr; }
+.bar { height: 8px; border-radius: 4px; background: var(--sunk); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); margin-inline-start: 0; }
 
-.nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
-.num { border-top: 2px solid var(--line); padding-top: 6px; }
-.num b { display: block; font-family: var(--mono); font-size: 1.3rem; font-variant-numeric: tabular-nums; direction: ltr; text-align: right; }
-.num span { font-size: .8rem; color: var(--muted); }
+.verdict { border-radius: 14px; padding: 18px; display: grid; gap: 8px; }
+.verdict.ok { background: var(--ok-bg); }
+.verdict.warn { background: var(--warn-bg); }
+.verdict.bad { background: var(--bad-bg); }
+.verdict h1 { font-size: 1.5rem; }
+.verdict.ok h1 { color: var(--ok); }
+.verdict.warn h1 { color: var(--warn); }
+.verdict.bad h1 { color: var(--bad); }
+.nums { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.num { background: var(--surface); border-radius: 12px; padding: 12px; display: grid; }
+.num b { font-family: var(--mono); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.num span { font-size: .85rem; color: var(--muted); }
 
-.checks { display: grid; gap: 10px; }
-.check { border-bottom: 1px solid var(--line); padding-bottom: 10px; display: grid; gap: 6px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; }
+details.more { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+details.more > summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+details.more[open] > summary { margin-bottom: 12px; }
+details.more > div { display: grid; gap: 12px; }
+
+.checks { display: grid; gap: 12px; }
+.check { border-bottom: 1px solid var(--line); padding-bottom: 12px; display: grid; gap: 6px; }
 .check:last-child { border-bottom: 0; padding-bottom: 0; }
 .tri { display: flex; gap: 6px; flex-wrap: wrap; }
-.tri label { border: 1px solid var(--line); border-radius: 999px; padding: 2px 12px; font-size: .85rem; cursor: pointer; }
+.tri label { border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; font-size: .85rem; cursor: pointer; }
 .tri input { position: absolute; opacity: 0; pointer-events: none; }
 .tri label:has(input:checked) { border-color: var(--accent); color: var(--accent); font-weight: 600; }
 .tri label.bad:has(input:checked) { border-color: var(--bad); color: var(--bad); }
 .tri label.ok:has(input:checked) { border-color: var(--ok); color: var(--ok); }
+.tri label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.where { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 4px; }
 
-details { border-top: 1px solid var(--line); padding-top: 10px; }
-summary { cursor: pointer; color: var(--accent); font-weight: 500; }
-.tariff-wrap { overflow-x: auto; margin-top: 10px; }
+.tariff-wrap { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: .9rem; }
 th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; }
-td input.numin { padding: 4px 6px; max-width: 90px; }
+.check-row { display: flex; gap: 10px; align-items: flex-start; }
+.check-row input { margin-top: .4em; flex: none; accent-color: var(--accent); }
 
-pre.summary {
-  white-space: pre-wrap;
-  background: var(--sunk);
-  border-radius: 10px;
-  padding: 14px;
-  margin: 0;
-  font: .9rem/1.8 var(--body);
-  max-height: 420px;
-  overflow: auto;
-}
-.badge { display: inline-block; font-size: .75rem; padding: 0 8px; border-radius: 999px; background: var(--warn-bg); color: var(--warn); font-weight: 600; }
-.actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+pre.summary { white-space: pre-wrap; background: var(--sunk); border-radius: 10px; padding: 12px; margin: 0; font: .875rem/1.8 var(--body); max-height: 360px; overflow: auto; }
+.err { color: var(--bad); font-size: .9rem; }
+.status { font-size: .9rem; color: var(--ok); }
 footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
-@media (prefers-reduced-motion: no-preference) { button { transition: filter .15s; } button:hover { filter: brightness(1.08); } }
+@media (prefers-reduced-motion: no-preference) {
+  .screen { animation: in .25s ease-out; }
+  @keyframes in { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
 </style>
 </head>
 <body>
 <main class="wrap">
 
-<header>
-  <h1>فحص تسرّب العدّاد</h1>
-  <p class="muted">تعرف في ساعة إذا بيتك يسرّب ماء، وتقريباً وين مكان التسرّب، وكم يكلّفك بالشهر. كل اللي تحتاجه العدّاد وجوالك. بياناتك تبقى على جهازك.</p>
-  <div class="meter" aria-label="قراءة العداد الحالية">
-    <div class="dials" id="meterDials"></div>
-    <div class="meter-label">m³ · الأسود متر مكعب · الأحمر لترات</div>
-  </div>
-</header>
+<div class="topbar">
+  <span class="brand">فحص تسرّب العدّاد</span>
+  <span class="dots" id="dots" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+</div>
 
-<section class="card">
-  <div class="step-head"><span class="step-no">١</span><h2>وش نظام الماء في بيتك؟</h2></div>
-  <div class="seg" id="system">
-    <label><input type="radio" name="system" value="tank" id="sysTank" checked><span><b>خزان أرضي وخزان علوي</b><span class="muted small">العدّاد يعبّي الخزان الأرضي، والماطور يرفع للعلوي. أغلب الفلل.</span></span></label>
-    <label><input type="radio" name="system" value="direct" id="sysDirect"><span><b>مباشر من العدّاد</b><span class="muted small">ما فيه خزان، الماء يوصل الحنفيات من الشبكة مباشرة.</span></span></label>
-  </div>
+<!-- ١: نوع البيت -->
+<section class="screen" data-step="1">
+  <h1>فاتورة الماء مرتفعة؟</h1>
+  <p>افحص بيتك من التسرّب بنفسك. تحتاج عدّاد الماء وساعة انتظار بس.</p>
+  <h2>كيف يوصل الماء لبيتك؟</h2>
+  <button type="button" class="choice" data-system="tank"><b>فيه خزان أرضي وخزان فوق</b><span>أغلب الفلل والبيوت</span></button>
+  <button type="button" class="choice" data-system="direct"><b>مباشر بدون خزانات</b><span>أغلب الشقق</span></button>
+  <p class="small muted">ما تدري؟ إذا عندك ماطور يرفع الماء للسطح، اختر الأول.</p>
 </section>
 
-<section class="card">
-  <div class="step-head"><span class="step-no">٢</span><h2>فحص العدّاد</h2></div>
-  <ol class="howto" id="howtoTank">
-    <li>افتح غطاء الخزان الأرضي وتأكد إنه مليان والعوّامة مسكّرة. أحسن وقت بالليل أو الصبح بدري.</li>
-    <li>صوّر العدّاد بجوالك، واكتب القراءة تحت مع الأرقام الحمراء.</li>
-    <li>لا تستخدمون الماء من الخزان الأرضي، واتركوا العدّاد ساعة على الأقل (ساعتين أدق).</li>
-    <li>صوّره مرة ثانية واكتب القراءة الثانية.</li>
-  </ol>
-  <p class="verdict warn small" id="safetyTank"><span><b>انتبه:</b> غطاء الخزان الأرضي المفتوح خطر على الأطفال. رجّعه وسكّره أول ما تخلص، ولا تتركه مفتوح ولو دقيقة. ولا تطلع السطح بالليل أو لحالك.</span></p>
-  <ol class="howto" id="howtoDirect" hidden>
-    <li>سكّر كل الحنفيات، والغسالة، والمكيف الصحراوي، والري، وتأكد ما أحد بيستخدم الماء.</li>
-    <li>صوّر العدّاد بجوالك، واكتب القراءة تحت مع الأرقام الحمراء.</li>
-    <li>انتظر ساعة على الأقل بدون أي استخدام (ساعتين أدق).</li>
-    <li>صوّره مرة ثانية واكتب القراءة الثانية.</li>
-  </ol>
-  <p class="small muted">كثير من العدّادات فيها نجمة أو ترس صغير يلف مع أقل حركة للماء. إذا يلف والاستخدام موقف، هذا دليل تسرّب قبل حتى ما تتغير الأرقام.</p>
+<!-- ٢: القراءة الأولى -->
+<section class="screen" data-step="2" hidden>
+  <h1>سكّر الماء واكتب قراءة العدّاد</h1>
+  <ul class="do" id="doTank">
+    <li>افتح الخزان الأرضي وتأكد إنه مليان، وبعدها سكّر غطاه.</li>
+    <li>لا أحد يستخدم الماء لمدة ساعة. أحسن وقت بالليل.</li>
+    <li>صوّر العدّاد بجوالك واكتب الرقم تحت.</li>
+  </ul>
+  <ul class="do" id="doDirect">
+    <li>سكّر كل الحنفيات والغسالة والمكيف الصحراوي والري.</li>
+    <li>لا أحد يستخدم الماء لمدة ساعة.</li>
+    <li>صوّر العدّاد بجوالك واكتب الرقم تحت.</li>
+  </ul>
+  <p class="note warn" id="safety"><b>انتبه:</b> غطاء الخزان الأرضي المفتوح خطر على الأطفال. لا تتركه مفتوح ولو دقيقة.</p>
 
-  <div class="readings">
-    <div class="reading">
-      <h3>القراءة الأولى</h3>
-      <label class="field"><span>القراءة (م³)</span><input type="text" class="numin" id="r1" inputmode="decimal" autocomplete="off" placeholder="1234.567"></label>
-      <label class="field"><span>الوقت</span>
-        <span class="row"><input type="datetime-local" id="t1"><button type="button" class="tiny ghost" data-now="t1">الحين</button></span>
-      </label>
-    </div>
-    <div class="reading">
-      <h3>القراءة الثانية</h3>
-      <label class="field"><span>القراءة (م³)</span><input type="text" class="numin" id="r2" inputmode="decimal" autocomplete="off" placeholder="1234.612"></label>
-      <label class="field"><span>الوقت</span>
-        <span class="row"><input type="datetime-local" id="t2"><button type="button" class="tiny ghost" data-now="t2">الحين</button></span>
-      </label>
-    </div>
+  <div class="meter" aria-hidden="true">
+    <div class="dials" id="dials1"></div>
+    <div class="meter-label">الأرقام السوداء، بعدها الحمراء</div>
   </div>
-  <p class="small muted">مثال: عدّاد يعرض <span dir="ltr">01234</span> بالأسود و<span dir="ltr">567</span> بالأحمر، اكتبه <span dir="ltr">1234.567</span>. كل رقم أحمر أول = 100 لتر، الثاني = 10، الثالث = 1.</p>
+  <label class="field"><span>رقم العدّاد (اكتب الأسود، بعدين نقطة، بعدين الأحمر)</span>
+    <input type="text" class="numin" id="r1" inputmode="decimal" autocomplete="off" placeholder="1234.567"></label>
+  <p class="err" id="r1err" hidden>اكتب أرقام بس، مثل 1234.567</p>
+  <button type="button" id="start" disabled>سجّلت الرقم، ابدأ الساعة</button>
+  <div class="row-actions"><button type="button" class="link" data-back>رجوع</button></div>
+</section>
 
-  <div class="verdict none" id="verdict"></div>
-  <div class="nums" id="nums" hidden>
-    <div class="num"><b id="nLh">0</b><span>لتر بالساعة</span></div>
-    <div class="num"><b id="nLd">0</b><span>لتر باليوم</span></div>
-    <div class="num"><b id="nM3">0</b><span>م³ بالشهر</span></div>
-    <div class="num"><b id="nSar">0</b><span>ريال زيادة بالشهر (تقريبي)</span></div>
+<!-- ٣: الانتظار والقراءة الثانية -->
+<section class="screen" data-step="3" hidden>
+  <h1>انتظر، ولا أحد يستخدم الماء</h1>
+  <div class="timer">
+    <span class="muted small">مضى من الساعة</span>
+    <b id="elapsed">0:00</b>
+    <div class="bar"><i id="bar"></i></div>
+    <span class="small muted" id="timerNote">تقدر تسكّر الصفحة وترجع، الوقت محفوظ.</span>
+  </div>
+  <p class="small muted">كثير من العدّادات فيها نجمة أو ترس صغير يلف. إذا تشوفه يلف والماء مسكّر، فيه تسرّب.</p>
+  <div class="meter" aria-hidden="true">
+    <div class="dials" id="dials2"></div>
+    <div class="meter-label">الأرقام السوداء، بعدها الحمراء</div>
+  </div>
+  <label class="field"><span>رقم العدّاد الحين</span>
+    <input type="text" class="numin" id="r2" inputmode="decimal" autocomplete="off" placeholder="1234.567"></label>
+  <p class="err" id="r2err" hidden></p>
+  <button type="button" id="finish" disabled>شوف النتيجة</button>
+  <div class="row-actions">
+    <button type="button" class="link" data-back>رجوع</button>
+    <button type="button" class="link" id="editTimeBtn">كتبت القراءة الأولى بوقت ثاني؟</button>
+  </div>
+  <label class="field" id="t1box" hidden><span>وقت القراءة الأولى</span><input type="datetime-local" id="t1"></label>
+</section>
+
+<!-- ٤: النتيجة -->
+<section class="screen" data-step="4" hidden>
+  <div class="verdict" id="verdict"></div>
+  <div class="nums" id="nums">
+    <div class="num"><b id="nLd">0</b><span>لتر يضيع باليوم</span></div>
+    <div class="num"><b id="nSar">0</b><span>ريال زيادة بالشهر تقريباً</span></div>
   </div>
 
-  <details id="costBox">
-    <summary>عدّل حساب التكلفة على فاتورتك</summary>
-    <div style="display:grid;gap:10px;margin-top:10px">
-      <label class="field"><span>استهلاكك المعتاد بالشهر بدون التسرّب (م³، من فاتورة قديمة)</span><input type="text" class="numin" id="usual" inputmode="decimal" value="25"></label>
-      <label class="row" style="align-items:center"><input type="checkbox" id="sewer" checked style="width:auto;flex:none"> <span>عندي صرف صحي على الفاتورة</span></label>
+  <button type="button" id="wantTech">أبغى فني يجيني</button>
+
+  <div class="card" id="leadCard" hidden>
+    <h2>بيانات الزيارة</h2>
+    <label class="field"><span>رقم جوالك</span><input type="text" id="lPhone" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx" dir="ltr"></label>
+    <label class="field"><span>المدينة</span><input type="text" id="lCity" placeholder="الرياض"></label>
+    <label class="field"><span>الحي</span><input type="text" id="lDistrict" placeholder="النرجس"></label>
+    <label class="field"><span>الاسم ووقت الزيارة (اختياري)</span><input type="text" id="lName" placeholder="أبو محمد، بعد العصر"></label>
+    <label class="check-row"><input type="checkbox" id="lConsent"><span class="small">أوافق إن رقمي ونتيجة الفحص يوصلون لشركة كشف تسرّبات شريكة في مدينتي عشان تتواصل معي بخصوص هذا الطلب بس. ما تنباع بياناتي، وأقدر أطلب حذفها برسالة «احذف بياناتي» على نفس الرقم.</span></label>
+    <p class="err" id="leadErr" hidden></p>
+    <a class="btn" id="leadSend" href="#" target="_blank" rel="noopener">أرسل الطلب بالواتساب</a>
+    <p class="status" id="leadMsg" role="status"></p>
+  </div>
+
+  <details class="more" id="whereBox">
+    <summary>وين ممكن يكون التسرّب؟</summary>
+    <div>
+      <ul class="where" id="whereList"></ul>
+      <p class="small muted">افحص هذي بنفسك، وعلّم اللي لقيته. تنضاف للملخص اللي يوصل الفني.</p>
+      <div class="checks" id="checks"></div>
+    </div>
+  </details>
+
+  <details class="more">
+    <summary>ملخص الفحص للشكوى على الفاتورة</summary>
+    <div>
+      <p class="small muted">انسخه وأرفقه مع صور العدّاد في شكوى الفاتورة المرتفعة عند شركة المياه الوطنية.</p>
+      <pre class="summary" id="summary"></pre>
+      <button type="button" class="ghost" id="copy">نسخ الملخص</button>
+      <p class="status" id="copyMsg" role="status"></p>
+    </div>
+  </details>
+
+  <details class="more">
+    <summary>عدّل حساب الريالات على فاتورتك</summary>
+    <div>
+      <label class="field"><span>استهلاكك المعتاد بالشهر بدون التسرّب (م³، من فاتورة قديمة)</span><input type="text" class="numin sm" id="usual" inputmode="decimal" value="25"></label>
+      <label class="check-row"><input type="checkbox" id="sewer" checked><span>عندي صرف صحي على الفاتورة</span></label>
       <div class="tariff-wrap">
         <table>
           <thead><tr><th>الشريحة (م³/شهر)</th><th>مياه (ريال/م³)</th><th>صرف (ريال/م³)</th></tr></thead>
           <tbody id="tariffBody"></tbody>
         </table>
       </div>
-      <p class="small muted">الأسعار الافتراضية من التعرفة السكنية المعلنة، والحساب يضيف ضريبة 15٪. طابقها مع آخر فاتورة لك أو حاسبة شركة المياه الوطنية، وعدّلها إذا تغيّرت. الرقم يحسب الفرق بين فاتورتك مع التسرّب وبدونه، لأن التسرّب يدفعك لشريحة أغلى.</p>
+      <p class="small muted">الحساب يضيف ضريبة 15٪، ويحسب الفرق بين فاتورتك مع التسرّب وبدونه. طابق الأسعار مع آخر فاتورة لك.</p>
     </div>
   </details>
-</section>
 
-<section class="card" id="tankTests">
-  <div class="step-head"><span class="step-no">٣</span><h2>وين مكان التسرّب؟</h2></div>
-  <p class="muted small">فحص العدّاد يقيس الجزء من العدّاد إلى الخزان الأرضي بس. هذي الفحوصات تكشف الباقي.</p>
-  <div class="checks">
-    <div class="check">
-      <h3>الخزان العلوي</h3>
-      <p class="small">افصل الماطور، وسكّر كل الحنفيات، وحط علامة (شريط لاصق) على مستوى الماء في الخزان العلوي. ارجع بعد ساعة أو ساعتين. إذا نزل الماء، فيه تسرّب في مواسير البيت أو الأدوات الصحية.</p>
-      <div class="tri" data-key="roof"></div>
-    </div>
-    <div class="check">
-      <h3>الخزان الأرضي نفسه</h3>
-      <p class="small">سكّر المحبس اللي بعد العدّاد، وافصل الماطور، وعلّم مستوى الماء في الخزان الأرضي، ورجّع الغطاء مسكّر وأنت تنتظر. إذا نزل بعد ساعات، الخزان فيه شق. وإذا العدّاد تحرك في الفحص الأول والخزان ثابت هنا، التسرّب في الماسورة بين العدّاد والخزان أو العوّامة ما تسكّر.</p>
-      <div class="tri" data-key="ground"></div>
-    </div>
-    <div class="check">
-      <h3>الماطور يشتغل لحاله</h3>
-      <p class="small">بالليل وما أحد يستخدم الماء، هل تسمع الماطور يشتغل كل شوي؟ هذا يعني الخزان العلوي ينقص من تسرّب.</p>
-      <div class="tri" data-key="pump"></div>
-    </div>
+  <button type="button" class="ghost" id="reset">فحص جديد</button>
+  <div class="note warn" id="confirmReset" hidden>
+    <p>بيمسح القراءات والنتيجة من جهازك. متأكد؟</p>
+    <div class="row-actions" style="margin-top:8px"><button type="button" id="resetYes" style="width:auto">امسح وابدأ</button><button type="button" class="link" id="resetNo">لا</button></div>
   </div>
-</section>
-
-<section class="card">
-  <div class="step-head"><span class="step-no" id="quickNo">٤</span><h2>فحوصات سريعة داخل البيت</h2></div>
-  <div class="checks" id="quick"></div>
-</section>
-
-<section class="card">
-  <div class="step-head"><span class="step-no" id="sumNo">٥</span><h2>ملخص الفحص</h2></div>
-  <p class="small muted">انسخه وأرفقه مع صور العدّاد في شكوى الفاتورة المرتفعة عند شركة المياه الوطنية، أو أرسله للفني عشان يبدأ من المكان الصح بدل فحص البيت كامل.</p>
-  <pre class="summary" id="summary"></pre>
-  <div class="actions">
-    <button type="button" id="copy">نسخ الملخص</button>
-    <button type="button" class="ghost" id="reset">فحص جديد</button>
-    <span class="small muted" id="copyMsg" role="status"></span>
-  </div>
-  <div id="confirmReset" class="verdict warn" hidden>
-    <p>بيمسح كل القراءات والنتائج من هذا الجهاز. متأكد؟</p>
-    <div class="actions"><button type="button" id="resetYes">امسح وابدأ</button><button type="button" class="ghost" id="resetNo">لا</button></div>
-  </div>
-</section>
-
-<section class="card" id="leadCard">
-  <div class="step-head"><span class="step-no" id="leadNo">٦</span><h2>أبغى فني يجيني</h2></div>
-  <p class="small" id="leadIntro"></p>
-  <div class="readings">
-    <label class="field"><span>الاسم (اختياري)</span><input type="text" id="lName" autocomplete="name"></label>
-    <label class="field"><span>رقم الجوال</span><input type="text" id="lPhone" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx" dir="ltr"></label>
-    <label class="field"><span>المدينة</span><input type="text" id="lCity" placeholder="الرياض"></label>
-    <label class="field"><span>الحي</span><input type="text" id="lDistrict" placeholder="النرجس"></label>
-  </div>
-  <label class="field"><span>وقت يناسبك للزيارة (اختياري)</span><input type="text" id="lTime" placeholder="بعد العصر، أي يوم"></label>
-  <label class="row" style="align-items:flex-start"><input type="checkbox" id="lConsent" style="width:auto;flex:none;margin-top:.45em"> <span class="small">أوافق إن اسمي ورقمي وملخص الفحص يوصلون لفني كشف تسرّبات عشان يتواصل معي.</span></label>
-  <p class="small muted">طلبك يوصل لشركة كشف تسرّبات شريكة في مدينتك، وتستخدم رقمك بس عشان تتواصل معك بخصوص هذا الطلب. ما نبيع بياناتك ولا نرسلها لأحد ثاني. تبغى نحذفها؟ أرسل «احذف بياناتي» على نفس الرقم.</p>
-  <p class="small" id="leadErr" style="color:var(--bad)" hidden></p>
-  <div class="actions">
-    <a class="btn" id="leadSend" href="#" target="_blank" rel="noopener">أرسل الطلب بالواتساب</a>
-    <button type="button" class="ghost" id="leadCopy">نسخ الطلب</button>
-    <span class="small muted" id="leadMsg" role="status"></span>
-  </div>
-  <p class="small muted" id="leadNumber"></p>
 </section>
 
 <footer>
-  <p>قراءاتك ونتائج الفحص تبقى على جهازك، وما يوصلنا منها شي إلا إذا أرسلت طلب فني.</p>
-  <p>الأداة تعطيك تقدير مبني على قراءاتك. ما تغني عن فني معتمد لتحديد مكان التسرّب بالضبط، لكنها تقولك هل تحتاجه أصلاً.</p>
+  <p>قراءاتك تبقى على جهازك، وما يوصلنا منها شي إلا إذا أرسلت طلب فني.</p>
+  <p>النتيجة تقدير مبني على قراءاتك. ما تغني عن فني يحدد مكان التسرّب بالضبط، لكنها تقولك هل تحتاجه أصلاً.</p>
 </footer>
 </main>
 
 <script>
 (() => {
   const $ = (id) => document.getElementById(id);
-  const KEY = 'leak-check-v1';
+  const KEY = 'leak-check-v2';
   // رقم واتساب اللي تستقبل عليه طلبات الفنيين، بالصيغة الدولية بدون + (مثال: 9665XXXXXXXX)
   const LEADS_WHATSAPP = '966502140821';
+  const HOUR = 3.6e6;
   const DEFAULT_TARIFF = [
     { upTo: 15, w: 0.10, s: 0.05 },
     { upTo: 30, w: 1.00, s: 0.50 },
@@ -382,338 +338,277 @@ footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
     { upTo: 60, w: 4.00, s: 2.00 },
     { upTo: null, w: 6.00, s: 3.00 },
   ];
+  const TANK_CHECKS = [
+    { key: 'roof', title: 'الخزان اللي فوق', text: 'افصل الماطور، وسكّر الحنفيات، وحط شريط لاصق على مستوى الماء. إذا نزل بعد ساعة أو ساعتين، التسرّب داخل البيت.' },
+    { key: 'ground', title: 'الخزان الأرضي', text: 'سكّر المحبس اللي بعد العدّاد، وافصل الماطور، وعلّم مستوى الماء وسكّر الغطاء. إذا نزل بعد ساعات، الخزان فيه شق.' },
+    { key: 'pump', title: 'الماطور يشتغل لحاله', text: 'بالليل وما أحد يستخدم الماء، تسمعه يشتغل كل شوي؟' },
+  ];
   const QUICK = [
-    { key: 'toilet', title: 'السيفون', text: 'حط كم نقطة صبغة طعام في خزان السيفون ولا تسحب. إذا طلع اللون في الكرسي بعد 15 دقيقة، السيفون يسرّب. هذا أشهر سبب للتسرّب الصامت.' },
-    { key: 'float', title: 'عوّامة الخزان العلوي', text: 'اطلع السطح وشوف ماسورة الفائض (الهواية). إذا ينزل منها ماء والخزان مليان، العوّامة ما تسكّر.' },
-    { key: 'heater', title: 'السخانات', text: 'صمام الأمان في السخان ينقّط باستمرار أو تحته رطوبة.' },
-    { key: 'cooler', title: 'المكيف الصحراوي', text: 'الماء يفيض من حوضه أو العوّامة ما توقف التعبئة.' },
-    { key: 'taps', title: 'الحنفيات والشطافات', text: 'أي حنفية أو شطاف ينقّط حتى لو نقطة كل ثانية.' },
-    { key: 'damp', title: 'رطوبة أو بقع', text: 'بقع في الجدار أو السقف، بلاط منفوخ، أو مكان في الحوش رطب دايم بدون سبب.' },
-    { key: 'garden', title: 'الري والحديقة', text: 'مؤقّت الري يشتغل في وقت غلط، أو خط تنقيط مكسور، أو أرض رطبة حول المواسير.' },
+    { key: 'toilet', title: 'السيفون', text: 'حط نقاط صبغة طعام في خزان السيفون ولا تسحب. إذا طلع اللون في الكرسي بعد 15 دقيقة، يسرّب. هذا أشهر سبب.' },
+    { key: 'float', title: 'عوّامة الخزان اللي فوق', text: 'ينزل ماء من ماسورة الفائض والخزان مليان؟ العوّامة ما تسكّر.' },
+    { key: 'heater', title: 'السخانات', text: 'صمام الأمان ينقّط أو تحت السخان رطوبة.' },
+    { key: 'cooler', title: 'المكيف الصحراوي', text: 'الماء يفيض من حوضه.' },
+    { key: 'taps', title: 'الحنفيات والشطافات', text: 'أي وحدة تنقّط.' },
+    { key: 'damp', title: 'رطوبة أو بقع', text: 'بقع في الجدار أو السقف، بلاط منفوخ، أو مكان رطب دايم في الحوش.' },
+    { key: 'garden', title: 'الري', text: 'مؤقّت يشتغل بوقت غلط، أو خط تنقيط مكسور.' },
   ];
   const TRI = [['skip', 'ما فحصت'], ['ok', 'سليم'], ['bad', 'فيه تسرّب']];
 
-  const EXAMPLE = {
-    example: true, system: 'tank',
-    r1: '1234.567', t1: '2026-09-27T23:00', r2: '1234.612', t2: '2026-09-28T00:30',
-    usual: 25, sewer: true, tariff: DEFAULT_TARIFF,
-    checks: { roof: 'skip', ground: 'skip', pump: 'skip', toilet: 'bad', float: 'ok' },
-  };
-
-  // يقبل الأرقام العربية (٠١٢) والفارسية والفاصلة العشرية العربية (٫)
-  const num = (v) => {
-    const t = String(v ?? '').trim()
-      .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
-      .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
-      .replace(/[٫,،]/g, '.').replace(/\s/g, '');
-    return t === '' ? NaN : Number(t);
-  };
-
+  const fresh = () => ({ step: 1, system: 'tank', r1: '', t1: '', r2: '', t2: '',
+    usual: 25, sewer: true, tariff: JSON.parse(JSON.stringify(DEFAULT_TARIFF)), checks: {}, lead: {}, leadOpen: false });
   let state;
   try { state = JSON.parse(localStorage.getItem(KEY)); } catch (e) { state = null; }
-  if (!state) state = JSON.parse(JSON.stringify(EXAMPLE));
-  if (!state.tariff) state.tariff = DEFAULT_TARIFF;
-  if (!state.checks) state.checks = {};
-
+  state = Object.assign(fresh(), state || {});
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
 
-  // Build tri-state controls
-  function buildTri(el, key) {
-    el.innerHTML = TRI.map(([v, t]) =>
-      `<label class="${v}"><input type="radio" name="c_${key}" id="c_${key}_${v}" value="${v}">${t}</label>`
-    ).join('');
-    el.addEventListener('change', (e) => { state.checks[key] = e.target.value; onChange(); });
-  }
-  $('quick').innerHTML = QUICK.map(q =>
-    `<div class="check"><h3>${q.title}</h3><p class="small">${q.text}</p><div class="tri" data-key="${q.key}"></div></div>`
-  ).join('');
-  document.querySelectorAll('.tri').forEach(el => buildTri(el, el.dataset.key));
+  // يقبل الأرقام العربية (٠١٢) والفارسية والفاصلة العشرية العربية (٫)
+  const latinDigits = (s) => String(s ?? '')
+    .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+    .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+  const num = (v) => {
+    const t = latinDigits(v).trim().replace(/[٫,،]/g, '.').replace(/\s/g, '');
+    return t === '' ? NaN : Number(t);
+  };
+  const phoneDigits = (s) => latinDigits(s).replace(/[^\d]/g, '');
+  const fmt = (n, d = 0) => n.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
+  const toLocalInput = (ms) => new Date(ms - new Date(ms).getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+  const tank = () => state.system === 'tank';
 
-  // Tariff table
-  function renderTariff() {
-    let from = 0;
-    $('tariffBody').innerHTML = state.tariff.map((t, i) => {
-      const range = t.upTo == null ? `أكثر من ${from}` : `${from + 1} – ${t.upTo}`;
-      from = t.upTo;
-      return `<tr><td>${range}</td>
-        <td><input type="text" class="numin" inputmode="decimal" id="tw${i}" data-i="${i}" data-f="w" value="${t.w}"></td>
-        <td><input type="text" class="numin" inputmode="decimal" id="ts${i}" data-i="${i}" data-f="s" value="${t.s}"></td></tr>`;
-    }).join('');
+  // ---------- العرض ----------
+  function renderMeter(el, val) {
+    const n = isFinite(val) && val >= 0 ? val : 0;
+    const [ip, fp] = n.toFixed(3).split('.');
+    el.innerHTML = [...ip.padStart(5, '0').slice(-5)].map(d => `<span class="dial">${d}</span>`).join('') +
+      '<span class="dial-gap"></span>' + [...fp].map(d => `<span class="dial red">${d}</span>`).join('');
   }
-  $('tariffBody').addEventListener('input', (e) => {
-    const { i, f } = e.target.dataset;
-    const v = num(e.target.value);
-    if (!isNaN(v)) { state.tariff[i][f] = v; state.example = false; onChange(); }
-  });
+
+  function show(step) {
+    state.step = step; save();
+    document.querySelectorAll('.screen').forEach(s => { s.hidden = +s.dataset.step !== step; });
+    [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i < step));
+    $('doTank').hidden = !tank(); $('doDirect').hidden = tank(); $('safety').hidden = !tank();
+    render();
+    window.scrollTo(0, 0);
+  }
 
   function bill(m3) {
     let total = 0, prev = 0;
     for (const t of state.tariff) {
       const cap = t.upTo == null ? Infinity : t.upTo;
-      const part = Math.max(0, Math.min(m3, cap) - prev);
-      total += part * (t.w + (state.sewer ? t.s : 0));
+      total += Math.max(0, Math.min(m3, cap) - prev) * (t.w + (state.sewer ? t.s : 0));
       prev = cap;
       if (m3 <= cap) break;
     }
     return total * 1.15;
   }
 
-  // Meter face
-  function renderMeter(val) {
-    const n = isFinite(val) && val >= 0 ? val : 0;
-    const [ip, fp] = n.toFixed(3).split('.');
-    const black = ip.padStart(5, '0').slice(-5);
-    $('meterDials').innerHTML =
-      [...black].map(d => `<span class="dial">${d}</span>`).join('') +
-      '<span class="dial-gap"></span>' +
-      [...fp].map(d => `<span class="dial red">${d}</span>`).join('');
-  }
-
-  const fmt = (n, d = 0) => n.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
-  const fmtTime = (s) => s ? s.replace('T', ' ') : '—';
-  const label = (v) => ({ ok: 'سليم', bad: 'فيه تسرّب' }[v] || 'ما فحصت');
-
   function analyze() {
-    const bad = (k) => String(state[k] || '').trim() !== '' && !isFinite(num(state[k]));
-    if (bad('r1') || bad('r2')) return { status: 'nan' };
-    const r1 = num(state.r1), r2 = num(state.r2);
-    const t1 = Date.parse(state.t1), t2 = Date.parse(state.t2);
-    if (!isFinite(r1) || !isFinite(r2) || !isFinite(t1) || !isFinite(t2)) return { status: 'missing' };
-    const hours = (t2 - t1) / 3.6e6;
-    if (hours <= 0) return { status: 'time' };
-    const liters = (r2 - r1) * 1000;
-    if (liters < -0.5) return { status: 'reverse' };
-    const lh = Math.max(0, liters) / hours;
+    const r1 = num(state.r1), r2 = num(state.r2), t1 = Date.parse(state.t1), t2 = Date.parse(state.t2);
+    if (![r1, r2, t1, t2].every(isFinite)) return null;
+    const hours = (t2 - t1) / HOUR;
+    const liters = Math.max(0, (r2 - r1) * 1000);
+    const lh = hours > 0 ? liters / hours : 0;
     const m3month = lh * 24 * 30 / 1000;
     const sar = bill(state.usual + m3month) - bill(state.usual);
-    let level = 'ok';
-    if (lh >= 20) level = 'bad'; else if (lh > 0.4) level = 'warn';
-    return { status: 'done', hours, liters: Math.max(0, liters), lh, m3month, sar, level };
+    const level = lh >= 20 ? 'bad' : lh > 0.4 ? 'warn' : 'ok';
+    return { hours, liters, lh, m3month, sar, level };
   }
 
   function where(a) {
     const c = state.checks, out = [];
-    const tank = state.system === 'tank';
-    if (tank) {
-      if (a.level !== 'ok' && c.ground === 'bad') out.push('الخزان الأرضي فيه شق أو تسرّب (مستواه نزل والمحبس مسكّر).');
-      else if (a.level !== 'ok' && c.ground === 'ok') out.push('التسرّب بين العدّاد والخزان الأرضي، أو عوّامة الخزان الأرضي ما تسكّر (الخزان ثابت والعدّاد يتحرك).');
-      else if (a.level !== 'ok') out.push('التسرّب في الجزء من العدّاد إلى الخزان الأرضي: الماسورة، أو الخزان نفسه، أو عوّامته. فحص «الخزان الأرضي نفسه» يفرّق بينهم.');
-      if (c.roof === 'bad' || c.pump === 'bad') out.push('فيه تسرّب داخل البيت بعد الخزان العلوي (المواسير أو الأدوات الصحية). هذا ما يبين في العدّاد مباشرة لكنه يرجع يعبّي من الأرضي.');
+    if (tank()) {
+      if (a.level !== 'ok') {
+        if (c.ground === 'bad') out.push('الخزان الأرضي فيه شق.');
+        else if (c.ground === 'ok') out.push('الماسورة بين العدّاد والخزان الأرضي، أو عوّامة الخزان الأرضي ما تسكّر.');
+        else out.push('بين العدّاد والخزان الأرضي: الماسورة، أو الخزان نفسه، أو عوّامته.');
+      }
+      if (c.roof === 'bad' || c.pump === 'bad') out.push('داخل البيت: المواسير أو الأدوات الصحية بعد الخزان اللي فوق.');
+      if (a.level === 'ok' && !out.length) out.push('العدّاد ما يوصل إلا للخزان الأرضي. عشان تتأكد من داخل البيت، سوّ فحص الخزان اللي فوق تحت.');
     } else if (a.level !== 'ok') {
-      out.push('التسرّب في مواسير البيت أو أحد الأدوات بعد العدّاد.');
+      out.push('في مواسير البيت أو أحد الأدوات بعد العدّاد. ابدأ بالسيفون والحنفيات.');
     }
-    QUICK.forEach(q => { if (c[q.key] === 'bad') out.push(`${q.title}: ${q.text.split('.')[0]}.`); });
+    QUICK.forEach(q => { if (c[q.key] === 'bad') out.push(`${q.title}.`); });
     return out;
   }
 
-  function renderVerdict(a) {
-    const v = $('verdict');
-    $('nums').hidden = a.status !== 'done';
-    const ex = state.example ? ' <span class="badge">مثال</span>' : '';
-    if (a.status === 'missing') { v.className = 'verdict none'; v.innerHTML = '<p>اكتب القراءتين ووقت كل وحدة، وتطلع النتيجة هنا.</p>'; return; }
-    if (a.status === 'nan') { v.className = 'verdict warn'; v.innerHTML = '<h3>القراءة فيها شي غلط</h3><p>اكتب الأرقام بس، والفاصلة بين الأسود والأحمر نقطة أو فاصلة. مثال: <span dir="ltr">1234.567</span></p>'; return; }
-    if (a.status === 'time') { v.className = 'verdict warn'; v.innerHTML = '<h3>الوقت غلط</h3><p>وقت القراءة الثانية لازم يكون بعد الأولى.</p>'; return; }
-    if (a.status === 'reverse') { v.className = 'verdict warn'; v.innerHTML = '<h3>القراءة الثانية أقل من الأولى</h3><p>راجع الأرقام، يمكن انعكست القراءتين أو فيه رقم ناقص.</p>'; return; }
-    const tank = state.system === 'tank';
-    const short = a.hours < 1 ? '<p class="small">المدة أقل من ساعة، والنتيجة أقل دقة. عيد الفحص لمدة أطول إذا تقدر.</p>' : '';
-    if (a.level === 'ok') {
-      v.className = 'verdict ok';
-      v.innerHTML = `<h3>العدّاد ثابت${ex}</h3><p>ما فيه تسرّب ${tank ? 'بين العدّاد والخزان الأرضي' : 'في البيت'} يقدر العدّاد يقيسه.${tank ? ' كمّل الفحوصات تحت عشان تتأكد من داخل البيت.' : ''}</p>${short}`;
-    } else if (a.level === 'warn') {
-      v.className = 'verdict warn';
-      v.innerHTML = `<h3>تسرّب بسيط${ex}</h3><p>العدّاد مشى ${fmt(a.liters, 0)} لتر في ${fmt(a.hours, 1)} ساعة بدون استخدام. غالباً سيفون أو عوّامة أو حنفية تنقّط، وتقدر تلقاه بنفسك من الفحوصات تحت.</p>${short}`;
-    } else {
-      v.className = 'verdict bad';
-      v.innerHTML = `<h3>تسرّب واضح${ex}</h3><p>العدّاد مشى ${fmt(a.liters, 0)} لتر في ${fmt(a.hours, 1)} ساعة بدون استخدام. هذا حجم يحتاج فني، وكل شهر يتأخر فيه يزيد الفاتورة.</p>${short}`;
-    }
-    $('nLh').textContent = fmt(a.lh, 1);
-    $('nLd').textContent = fmt(a.lh * 24, 0);
-    $('nM3').textContent = fmt(a.m3month, 1);
-    $('nSar').textContent = fmt(a.sar, 0);
-  }
-
-  function renderSummary(a) {
-    const tank = state.system === 'tank';
-    const L = [];
-    if (state.example) L.push('[مثال — هذي ليست قراءات حقيقية]', '');
-    L.push('ملخص فحص تسرّب المياه');
-    L.push(`نظام البيت: ${tank ? 'خزان أرضي وخزان علوي' : 'مباشر من العدّاد'}`);
-    L.push('');
-    L.push('فحص العدّاد (بدون أي استخدام' + (tank ? '، والخزان الأرضي مليان' : '') + '):');
-    L.push(`- القراءة الأولى: ${isFinite(num(state.r1)) ? num(state.r1).toFixed(3) : '—'} م³ الساعة ${fmtTime(state.t1)}`);
-    L.push(`- القراءة الثانية: ${isFinite(num(state.r2)) ? num(state.r2).toFixed(3) : '—'} م³ الساعة ${fmtTime(state.t2)}`);
-    if (a.status === 'done') {
-      L.push(`- الفرق: ${fmt(a.liters, 0)} لتر خلال ${fmt(a.hours, 1)} ساعة = ${fmt(a.lh, 1)} لتر/ساعة`);
-      L.push(`- التقدير الشهري: ${fmt(a.m3month, 1)} م³، تقريباً ${fmt(a.sar, 0)} ريال زيادة على الفاتورة`);
-      L.push(`- النتيجة: ${{ ok: 'العدّاد ثابت', warn: 'تسرّب بسيط', bad: 'تسرّب واضح' }[a.level]}`);
-    }
-    if (tank) {
-      L.push('', 'فحوصات الخزانات:');
-      L.push(`- الخزان العلوي (الماطور مفصول): ${label(state.checks.roof)}`);
-      L.push(`- الخزان الأرضي (المحبس مسكّر): ${label(state.checks.ground)}`);
-      L.push(`- الماطور يشتغل لحاله بالليل: ${{ ok: 'لا', bad: 'نعم' }[state.checks.pump] || 'ما فحصت'}`);
-    }
-    const done = QUICK.filter(q => state.checks[q.key] && state.checks[q.key] !== 'skip');
-    if (done.length) {
-      L.push('', 'فحوصات داخل البيت:');
-      done.forEach(q => L.push(`- ${q.title}: ${label(state.checks[q.key])}`));
-    }
-    if (a.status === 'done') {
-      const w = where(a);
-      if (w.length) { L.push('', 'المكان المرجّح:'); w.forEach(x => L.push('- ' + x)); }
-    }
-    L.push('', 'صور العدّاد قبل وبعد مرفقة.');
-    $('summary').textContent = L.join('\n');
-  }
-
-  const toLatin = (s) => (s || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[^\d]/g, '');
-
-  function leadText() {
-    const l = state.lead || {};
-    return [
-      'طلب فني كشف تسرّبات',
-      l.name ? `الاسم: ${l.name}` : null,
-      `الجوال: ${toLatin(l.phone)}`,
-      `المكان: ${l.city || '—'}، حي ${l.district || '—'}`,
-      l.time ? `وقت الزيارة: ${l.time}` : null,
-      '',
-      $('summary').textContent,
-    ].filter(x => x !== null).join('\n');
+  function summaryText(a) {
+    const label = (v) => ({ ok: 'سليم', bad: 'فيه تسرّب' }[v] || null);
+    const L = ['ملخص فحص تسرّب المياه', `البيت: ${tank() ? 'خزان أرضي وخزان علوي' : 'مباشر بدون خزانات'}`, ''];
+    L.push('فحص العدّاد بدون أي استخدام' + (tank() ? ' والخزان الأرضي مليان' : '') + ':');
+    L.push(`- القراءة الأولى: ${num(state.r1).toFixed(3)} م³ (${state.t1.replace('T', ' ')})`);
+    L.push(`- القراءة الثانية: ${num(state.r2).toFixed(3)} م³ (${state.t2.replace('T', ' ')})`);
+    L.push(`- الفرق: ${fmt(a.liters)} لتر خلال ${fmt(a.hours, 1)} ساعة = ${fmt(a.lh, 1)} لتر/ساعة`);
+    L.push(`- تقريباً ${fmt(a.m3month, 1)} م³ بالشهر، ${fmt(a.sar)} ريال زيادة على الفاتورة`);
+    const done = [...(tank() ? TANK_CHECKS : []), ...QUICK].filter(q => label(state.checks[q.key]));
+    if (done.length) { L.push('', 'فحوصات ثانية:'); done.forEach(q => L.push(`- ${q.title}: ${label(state.checks[q.key])}`)); }
+    const w = where(a);
+    if (a.level !== 'ok' && w.length) { L.push('', 'المكان المرجّح:'); w.forEach(x => L.push('- ' + x)); }
+    return L.join('\n');
   }
 
   function leadProblem() {
-    const l = state.lead || {};
-    if (state.example) return 'هذي قراءات مثال. اكتب قراءات عدّادك أول.';
-    const p = toLatin(l.phone);
-    if (!/^(05\d{8}|9665\d{8})$/.test(p)) return 'اكتب رقم جوال سعودي صحيح يبدأ بـ 05.';
+    const l = state.lead;
+    if (!/^(05\d{8}|9665\d{8})$/.test(phoneDigits(l.phone))) return 'اكتب رقم جوال صحيح يبدأ بـ 05.';
     if (!l.city || !l.district) return 'اكتب المدينة والحي عشان يوصلك أقرب فني.';
     if (!l.consent) return 'وافق على إرسال بياناتك للفني.';
     return '';
   }
 
-  function renderLead(a) {
-    const intro = a.status === 'done' && a.level === 'bad'
-      ? 'العدّاد يقول فيه تسرّب واضح. أرسل طلبك ويتواصل معك فني كشف تسرّبات، ويوصله ملخص الفحص عشان يبدأ من المكان الصح.'
-      : a.status === 'done' && a.level === 'warn'
-        ? 'التسرّب بسيط، وغالباً تلقاه بنفسك من الفحوصات اللي فوق. إذا ما لقيته، اطلب فني.'
-        : 'إذا عندك رطوبة أو فحص ثاني يقول فيه تسرّب، تقدر تطلب فني.';
-    $('leadIntro').textContent = intro;
-    const problem = leadProblem();
-    const err = $('leadErr');
-    const touched = state.lead && (state.lead.phone || state.lead.city || state.lead.consent);
-    err.hidden = !problem || !touched;
-    err.textContent = problem;
-    const send = $('leadSend');
-    if (!LEADS_WHATSAPP) {
-      send.setAttribute('aria-disabled', 'true');
-      send.href = '#';
-      $('leadNumber').textContent = 'رقم استقبال الطلبات ما انضاف بعد. انسخ الطلب وأرسله للفني بنفسك.';
-    } else {
-      send.setAttribute('aria-disabled', problem ? 'true' : 'false');
-      send.href = problem ? '#' : `https://wa.me/${LEADS_WHATSAPP}?text=${encodeURIComponent(leadText())}`;
-      $('leadNumber').textContent = '';
-    }
+  function leadText(a) {
+    const l = state.lead;
+    return ['طلب فني كشف تسرّبات', `الجوال: ${phoneDigits(l.phone)}`, `المكان: ${l.city}، حي ${l.district}`,
+      l.name ? `ملاحظة: ${l.name}` : null, '', summaryText(a)].filter(x => x !== null).join('\n');
   }
 
-  function applySystem() {
-    const tank = state.system === 'tank';
-    $('howtoTank').hidden = !tank;
-    $('howtoDirect').hidden = tank;
-    $('tankTests').hidden = !tank;
-    $('safetyTank').hidden = !tank;
-    $('quickNo').textContent = tank ? '٤' : '٣';
-    $('sumNo').textContent = tank ? '٥' : '٤';
-    $('leadNo').textContent = tank ? '٦' : '٥';
-  }
-
-  function onChange() {
-    save();
-    applySystem();
+  function renderResult() {
     const a = analyze();
-    renderMeter(isFinite(num(state.r2)) ? num(state.r2) : num(state.r1));
-    renderVerdict(a);
-    renderSummary(a);
-    renderLead(a);
+    if (!a) return;
+    const v = $('verdict');
+    const short = a.hours < 1 ? `<p class="small">انتظرت ${fmt(a.hours * 60)} دقيقة بس. عيد الفحص لمدة ساعة إذا تبغى نتيجة أدق.</p>` : '';
+    if (a.level === 'ok') {
+      v.className = 'verdict ok';
+      v.innerHTML = `<h1>العدّاد ثابت</h1><p>ما فيه تسرّب ${tank() ? 'بين العدّاد والخزان الأرضي' : 'في البيت'} يقدر العدّاد يقيسه.${tank() ? ' افحص الخزان اللي فوق من «وين ممكن يكون التسرّب» تحت.' : ''}</p>${short}`;
+    } else if (a.level === 'warn') {
+      v.className = 'verdict warn';
+      v.innerHTML = `<h1>فيه تسرّب بسيط</h1><p>العدّاد مشى ${fmt(a.liters)} لتر بدون استخدام. غالباً سيفون أو عوّامة أو حنفية تنقّط، وتقدر تلقاه بنفسك من «وين ممكن يكون التسرّب» تحت.</p>${short}`;
+    } else {
+      v.className = 'verdict bad';
+      v.innerHTML = `<h1>فيه تسرّب واضح</h1><p>العدّاد مشى ${fmt(a.liters)} لتر في ${fmt(a.hours, 1)} ساعة بدون استخدام. هذا يحتاج فني، وكل شهر تأخير يزيد الفاتورة.</p>${short}`;
+    }
+    $('nums').hidden = a.level === 'ok';
+    $('nLd').textContent = fmt(a.lh * 24);
+    $('nSar').textContent = fmt(a.sar);
+    $('wantTech').hidden = state.leadOpen;
+    $('wantTech').className = a.level === 'bad' ? '' : 'ghost';
+    $('wantTech').textContent = a.level === 'bad' ? 'أبغى فني يجيني' : 'أبغى فني مع ذلك';
+    $('leadCard').hidden = !state.leadOpen;
+    $('whereList').innerHTML = where(a).map(x => `<li>${x}</li>`).join('');
+    $('summary').textContent = summaryText(a);
+
+    const problem = leadProblem();
+    const touched = state.lead.phone || state.lead.city || state.lead.consent;
+    $('leadErr').hidden = !problem || !touched;
+    $('leadErr').textContent = problem;
+    const send = $('leadSend');
+    send.setAttribute('aria-disabled', problem ? 'true' : 'false');
+    send.href = problem ? '#' : `https://wa.me/${LEADS_WHATSAPP}?text=${encodeURIComponent(leadText(a))}`;
   }
 
-  function fillInputs() {
-    $(state.system === 'direct' ? 'sysDirect' : 'sysTank').checked = true;
-    ['r1', 't1', 'r2', 't2'].forEach(k => { $(k).value = state[k] || ''; });
-    $('usual').value = state.usual ?? 25;
-    $('sewer').checked = state.sewer !== false;
-    document.querySelectorAll('.tri').forEach(el => {
-      const v = state.checks[el.dataset.key] || 'skip';
-      const input = $(`c_${el.dataset.key}_${v}`);
-      if (input) input.checked = true;
-    });
-    renderTariff();
-    const l = state.lead || {};
-    LEAD_FIELDS.forEach(([id, k]) => { $(id).value = l[k] || ''; });
-    $('lConsent').checked = !!l.consent;
+  function renderTimer() {
+    const t1 = Date.parse(state.t1);
+    if (!isFinite(t1)) return;
+    const ms = Math.max(0, Date.now() - t1);
+    const mins = Math.floor(ms / 60000);
+    $('elapsed').textContent = `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`;
+    $('bar').style.width = Math.min(100, ms / HOUR * 100) + '%';
+    $('timerNote').textContent = ms >= HOUR
+      ? 'خلصت الساعة. اكتب رقم العدّاد الحين.'
+      : 'تقدر تسكّر الصفحة وترجع، الوقت محفوظ.';
   }
-  const LEAD_FIELDS = [['lName', 'name'], ['lPhone', 'phone'], ['lCity', 'city'], ['lDistrict', 'district'], ['lTime', 'time']];
 
-  // Wiring
-  document.querySelectorAll('input[name="system"]').forEach(r =>
-    r.addEventListener('change', () => { state.system = r.value; onChange(); }));
-  ['r1', 't1', 'r2', 't2'].forEach(k => $(k).addEventListener('input', () => {
-    if (state.example) { state.example = false; }
-    state[k] = $(k).value; onChange();
+  function render() {
+    renderMeter($('dials1'), num(state.r1));
+    renderMeter($('dials2'), isFinite(num(state.r2)) ? num(state.r2) : num(state.r1));
+    const r1ok = isFinite(num(state.r1)) && num(state.r1) >= 0;
+    $('start').disabled = !r1ok;
+    $('r1err').hidden = r1ok || !String(state.r1).trim();
+    const r2 = num(state.r2);
+    let r2msg = '';
+    if (String(state.r2).trim() && !isFinite(r2)) r2msg = 'اكتب أرقام بس، مثل 1234.567';
+    else if (isFinite(r2) && r2 < num(state.r1)) r2msg = `الرقم أقل من القراءة الأولى (${num(state.r1).toFixed(3)}). راجعه.`;
+    $('r2err').hidden = !r2msg; $('r2err').textContent = r2msg;
+    $('finish').disabled = !isFinite(r2) || !!r2msg;
+    if (state.step === 3) renderTimer();
+    if (state.step === 4) renderResult();
+  }
+
+  // ---------- الفحوصات والأسعار ----------
+  function buildChecks() {
+    const list = [...(tank() ? TANK_CHECKS : []), ...QUICK];
+    $('checks').innerHTML = list.map(q => `<div class="check"><h3>${q.title}</h3><p class="small">${q.text}</p>
+      <div class="tri">${TRI.map(([v, t]) => `<label class="${v}"><input type="radio" name="c_${q.key}" value="${v}" ${(state.checks[q.key] || 'skip') === v ? 'checked' : ''}>${t}</label>`).join('')}</div></div>`).join('');
+  }
+  $('checks').addEventListener('change', (e) => {
+    state.checks[e.target.name.slice(2)] = e.target.value; save(); render();
+  });
+
+  function buildTariff() {
+    let from = 0;
+    $('tariffBody').innerHTML = state.tariff.map((t, i) => {
+      const range = t.upTo == null ? `أكثر من ${from}` : `${from + 1} – ${t.upTo}`;
+      from = t.upTo;
+      return `<tr><td>${range}</td>
+        <td><input type="text" class="numin sm" inputmode="decimal" id="tw${i}" data-i="${i}" data-f="w" value="${t.w}"></td>
+        <td><input type="text" class="numin sm" inputmode="decimal" id="ts${i}" data-i="${i}" data-f="s" value="${t.s}"></td></tr>`;
+    }).join('');
+  }
+  $('tariffBody').addEventListener('input', (e) => {
+    const v = num(e.target.value);
+    if (isFinite(v) && v >= 0) { state.tariff[e.target.dataset.i][e.target.dataset.f] = v; save(); render(); }
+  });
+
+  // ---------- الأحداث ----------
+  document.querySelectorAll('[data-system]').forEach(b => b.addEventListener('click', () => {
+    state.system = b.dataset.system; buildChecks(); show(2);
   }));
-  $('usual').addEventListener('input', () => { state.usual = Math.max(0, num($('usual').value) || 0); onChange(); });
-  $('sewer').addEventListener('change', () => { state.sewer = $('sewer').checked; onChange(); });
-  document.querySelectorAll('[data-now]').forEach(b => b.addEventListener('click', () => {
-    const d = new Date(); d.setSeconds(0, 0);
-    const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    const k = b.dataset.now;
-    $(k).value = local; state[k] = local; state.example = false; onChange();
-  }));
+  document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => show(state.step - 1)));
+
+  $('r1').addEventListener('input', () => { state.r1 = $('r1').value; save(); render(); });
+  $('start').addEventListener('click', () => {
+    state.t1 = toLocalInput(Date.now()); $('t1').value = state.t1; show(3);
+  });
+  $('r2').addEventListener('input', () => { state.r2 = $('r2').value; save(); render(); });
+  $('editTimeBtn').addEventListener('click', () => { $('t1box').hidden = false; $('t1').focus(); });
+  $('t1').addEventListener('input', () => { state.t1 = $('t1').value; save(); render(); });
+  $('finish').addEventListener('click', () => { state.t2 = toLocalInput(Date.now()); show(4); });
+
+  $('wantTech').addEventListener('click', () => { state.leadOpen = true; save(); render(); $('lPhone').focus(); });
+  [['lPhone', 'phone'], ['lCity', 'city'], ['lDistrict', 'district'], ['lName', 'name']].forEach(([id, k]) =>
+    $(id).addEventListener('input', () => { state.lead[k] = $(id).value.trim(); save(); render(); }));
+  $('lConsent').addEventListener('change', () => { state.lead.consent = $('lConsent').checked; save(); render(); });
+  $('leadSend').addEventListener('click', (e) => {
+    const problem = leadProblem();
+    if (problem) { e.preventDefault(); $('leadErr').hidden = false; $('leadErr').textContent = problem; return; }
+    $('leadMsg').textContent = 'انفتح الواتساب. اضغط إرسال هناك عشان يوصل طلبك.';
+  });
 
   $('copy').addEventListener('click', () => {
-    const text = $('summary').textContent;
-    const done = () => { $('copyMsg').textContent = 'انتسخ الملخص'; };
+    const msg = (t) => { $('copyMsg').textContent = t; };
     const fallback = () => {
       const r = document.createRange(); r.selectNodeContents($('summary'));
       const s = getSelection(); s.removeAllRanges(); s.addRange(r);
-      $('copyMsg').textContent = 'النص محدد، انسخه من قائمة الجوال';
+      msg('النص محدد، انسخه من قائمة الجوال');
     };
-    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+    try { navigator.clipboard.writeText($('summary').textContent).then(() => msg('انتسخ الملخص'), fallback); } catch (e) { fallback(); }
   });
-  LEAD_FIELDS.forEach(([id, k]) => $(id).addEventListener('input', () => {
-    state.lead = state.lead || {}; state.lead[k] = $(id).value.trim(); onChange();
-  }));
-  $('lConsent').addEventListener('change', () => {
-    state.lead = state.lead || {}; state.lead.consent = $('lConsent').checked; onChange();
-  });
-  $('leadSend').addEventListener('click', (e) => {
-    const problem = leadProblem();
-    if (!LEADS_WHATSAPP || problem) {
-      e.preventDefault();
-      $('leadErr').hidden = !problem; $('leadErr').textContent = problem;
-    } else {
-      $('leadMsg').textContent = 'انفتح الواتساب. اضغط إرسال هناك عشان يوصل الطلب.';
-    }
-  });
-  $('leadCopy').addEventListener('click', () => {
-    const problem = leadProblem();
-    if (problem) { $('leadErr').hidden = false; $('leadErr').textContent = problem; return; }
-    const text = leadText();
-    const msg = (t) => { $('leadMsg').textContent = t; };
-    try { navigator.clipboard.writeText(text).then(() => msg('انتسخ الطلب'), () => msg('ما قدرت أنسخ، انسخ الملخص من فوق')); }
-    catch (e) { msg('ما قدرت أنسخ، انسخ الملخص من فوق'); }
-  });
+
+  $('usual').addEventListener('input', () => { const v = num($('usual').value); if (isFinite(v) && v >= 0) { state.usual = v; save(); render(); } });
+  $('sewer').addEventListener('change', () => { state.sewer = $('sewer').checked; save(); render(); });
 
   $('reset').addEventListener('click', () => { $('confirmReset').hidden = false; });
   $('resetNo').addEventListener('click', () => { $('confirmReset').hidden = true; });
   $('resetYes').addEventListener('click', () => {
-    state = { example: false, system: state.system, r1: '', t1: '', r2: '', t2: '',
-      usual: state.usual, sewer: state.sewer, tariff: state.tariff, checks: {}, lead: state.lead };
-    $('confirmReset').hidden = true; $('copyMsg').textContent = '';
-    fillInputs(); onChange();
+    const keep = { usual: state.usual, sewer: state.sewer, tariff: state.tariff, lead: state.lead };
+    state = Object.assign(fresh(), keep);
+    $('confirmReset').hidden = true;
+    fill(); show(1);
   });
 
-  fillInputs();
-  onChange();
+  function fill() {
+    $('r1').value = state.r1; $('r2').value = state.r2; $('t1').value = state.t1;
+    $('lPhone').value = state.lead.phone || ''; $('lCity').value = state.lead.city || '';
+    $('lDistrict').value = state.lead.district || ''; $('lName').value = state.lead.name || '';
+    $('lConsent').checked = !!state.lead.consent;
+    $('usual').value = state.usual; $('sewer').checked = state.sewer !== false;
+    $('leadMsg').textContent = ''; $('copyMsg').textContent = '';
+    buildChecks(); buildTariff();
+  }
+
+  setInterval(() => { if (state.step === 3) renderTimer(); }, 20000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.step === 3) renderTimer(); });
+
+  fill();
+  show(state.step >= 1 && state.step <= 4 ? state.step : 1);
 })();
 </script>
 </body>
