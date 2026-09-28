@@ -8,7 +8,10 @@
 <meta property="og:title" content="فحص تسرّب العدّاد">
 <meta property="og:description" content="فاتورة الماء مرتفعة؟ افحص بنفسك في ساعة قبل ما تدفع لأحد. مجاني ومن جوالك.">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://naiiif83.github.io/leak-check/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@500;700&display=swap">
@@ -142,7 +145,7 @@ ol.howto { margin: 0; padding-inline-start: 1.2em; display: grid; gap: 6px; }
 .field > span { font-size: .875rem; color: var(--muted); }
 .row { display: flex; gap: 8px; }
 .row > input { flex: 1; min-width: 0; }
-input[type="number"], input[type="datetime-local"], input[type="text"] {
+input[type="datetime-local"], input[type="text"] {
   font: inherit;
   color: var(--ink);
   background: var(--surface);
@@ -151,7 +154,7 @@ input[type="number"], input[type="datetime-local"], input[type="text"] {
   padding: 8px 10px;
   width: 100%;
 }
-input[type="number"] { font-family: var(--mono); direction: ltr; text-align: left; font-variant-numeric: tabular-nums; }
+input.numin { font-family: var(--mono); direction: ltr; text-align: left; font-variant-numeric: tabular-nums; }
 input:focus-visible, button:focus-visible, label:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 button {
@@ -200,7 +203,7 @@ summary { cursor: pointer; color: var(--accent); font-weight: 500; }
 .tariff-wrap { overflow-x: auto; margin-top: 10px; }
 table { border-collapse: collapse; width: 100%; font-size: .9rem; }
 th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; }
-td input[type="number"] { padding: 4px 6px; max-width: 90px; }
+td input.numin { padding: 4px 6px; max-width: 90px; }
 
 pre.summary {
   white-space: pre-wrap;
@@ -214,7 +217,7 @@ pre.summary {
 }
 .badge { display: inline-block; font-size: .75rem; padding: 0 8px; border-radius: 999px; background: var(--warn-bg); color: var(--warn); font-weight: 600; }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-footer { font-size: .8rem; color: var(--muted); }
+footer { font-size: .8rem; color: var(--muted); display: grid; gap: 6px; }
 @media (prefers-reduced-motion: no-preference) { button { transition: filter .15s; } button:hover { filter: brightness(1.08); } }
 </style>
 </head>
@@ -246,6 +249,7 @@ footer { font-size: .8rem; color: var(--muted); }
     <li>لا تستخدمون الماء من الخزان الأرضي، واتركوا العدّاد ساعة على الأقل (ساعتين أدق).</li>
     <li>صوّره مرة ثانية واكتب القراءة الثانية.</li>
   </ol>
+  <p class="verdict warn small" id="safetyTank"><span><b>انتبه:</b> غطاء الخزان الأرضي المفتوح خطر على الأطفال. رجّعه وسكّره أول ما تخلص، ولا تتركه مفتوح ولو دقيقة. ولا تطلع السطح بالليل أو لحالك.</span></p>
   <ol class="howto" id="howtoDirect" hidden>
     <li>سكّر كل الحنفيات، والغسالة، والمكيف الصحراوي، والري، وتأكد ما أحد بيستخدم الماء.</li>
     <li>صوّر العدّاد بجوالك، واكتب القراءة تحت مع الأرقام الحمراء.</li>
@@ -257,14 +261,14 @@ footer { font-size: .8rem; color: var(--muted); }
   <div class="readings">
     <div class="reading">
       <h3>القراءة الأولى</h3>
-      <label class="field"><span>القراءة (م³)</span><input type="number" id="r1" step="0.001" inputmode="decimal" placeholder="1234.567"></label>
+      <label class="field"><span>القراءة (م³)</span><input type="text" class="numin" id="r1" inputmode="decimal" autocomplete="off" placeholder="1234.567"></label>
       <label class="field"><span>الوقت</span>
         <span class="row"><input type="datetime-local" id="t1"><button type="button" class="tiny ghost" data-now="t1">الحين</button></span>
       </label>
     </div>
     <div class="reading">
       <h3>القراءة الثانية</h3>
-      <label class="field"><span>القراءة (م³)</span><input type="number" id="r2" step="0.001" inputmode="decimal" placeholder="1234.612"></label>
+      <label class="field"><span>القراءة (م³)</span><input type="text" class="numin" id="r2" inputmode="decimal" autocomplete="off" placeholder="1234.612"></label>
       <label class="field"><span>الوقت</span>
         <span class="row"><input type="datetime-local" id="t2"><button type="button" class="tiny ghost" data-now="t2">الحين</button></span>
       </label>
@@ -283,7 +287,7 @@ footer { font-size: .8rem; color: var(--muted); }
   <details id="costBox">
     <summary>عدّل حساب التكلفة على فاتورتك</summary>
     <div style="display:grid;gap:10px;margin-top:10px">
-      <label class="field"><span>استهلاكك المعتاد بالشهر بدون التسرّب (م³، من فاتورة قديمة)</span><input type="number" id="usual" step="1" min="0" value="25"></label>
+      <label class="field"><span>استهلاكك المعتاد بالشهر بدون التسرّب (م³، من فاتورة قديمة)</span><input type="text" class="numin" id="usual" inputmode="decimal" value="25"></label>
       <label class="row" style="align-items:center"><input type="checkbox" id="sewer" checked style="width:auto;flex:none"> <span>عندي صرف صحي على الفاتورة</span></label>
       <div class="tariff-wrap">
         <table>
@@ -307,7 +311,7 @@ footer { font-size: .8rem; color: var(--muted); }
     </div>
     <div class="check">
       <h3>الخزان الأرضي نفسه</h3>
-      <p class="small">سكّر المحبس اللي بعد العدّاد، وافصل الماطور، وعلّم مستوى الماء في الخزان الأرضي. إذا نزل بعد ساعات، الخزان فيه شق. وإذا العدّاد تحرك في الفحص الأول والخزان ثابت هنا، التسرّب في الماسورة بين العدّاد والخزان أو العوّامة ما تسكّر.</p>
+      <p class="small">سكّر المحبس اللي بعد العدّاد، وافصل الماطور، وعلّم مستوى الماء في الخزان الأرضي، ورجّع الغطاء مسكّر وأنت تنتظر. إذا نزل بعد ساعات، الخزان فيه شق. وإذا العدّاد تحرك في الفحص الأول والخزان ثابت هنا، التسرّب في الماسورة بين العدّاد والخزان أو العوّامة ما تسكّر.</p>
       <div class="tri" data-key="ground"></div>
     </div>
     <div class="check">
@@ -349,6 +353,7 @@ footer { font-size: .8rem; color: var(--muted); }
   </div>
   <label class="field"><span>وقت يناسبك للزيارة (اختياري)</span><input type="text" id="lTime" placeholder="بعد العصر، أي يوم"></label>
   <label class="row" style="align-items:flex-start"><input type="checkbox" id="lConsent" style="width:auto;flex:none;margin-top:.45em"> <span class="small">أوافق إن اسمي ورقمي وملخص الفحص يوصلون لفني كشف تسرّبات عشان يتواصل معي.</span></label>
+  <p class="small muted">طلبك يوصل لشركة كشف تسرّبات شريكة في مدينتك، وتستخدم رقمك بس عشان تتواصل معك بخصوص هذا الطلب. ما نبيع بياناتك ولا نرسلها لأحد ثاني. تبغى نحذفها؟ أرسل «احذف بياناتي» على نفس الرقم.</p>
   <p class="small" id="leadErr" style="color:var(--bad)" hidden></p>
   <div class="actions">
     <a class="btn" id="leadSend" href="#" target="_blank" rel="noopener">أرسل الطلب بالواتساب</a>
@@ -359,6 +364,7 @@ footer { font-size: .8rem; color: var(--muted); }
 </section>
 
 <footer>
+  <p>قراءاتك ونتائج الفحص تبقى على جهازك، وما يوصلنا منها شي إلا إذا أرسلت طلب فني.</p>
   <p>الأداة تعطيك تقدير مبني على قراءاتك. ما تغني عن فني معتمد لتحديد مكان التسرّب بالضبط، لكنها تقولك هل تحتاجه أصلاً.</p>
 </footer>
 </main>
@@ -394,6 +400,15 @@ footer { font-size: .8rem; color: var(--muted); }
     checks: { roof: 'skip', ground: 'skip', pump: 'skip', toilet: 'bad', float: 'ok' },
   };
 
+  // يقبل الأرقام العربية (٠١٢) والفارسية والفاصلة العشرية العربية (٫)
+  const num = (v) => {
+    const t = String(v ?? '').trim()
+      .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+      .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+      .replace(/[٫,،]/g, '.').replace(/\s/g, '');
+    return t === '' ? NaN : Number(t);
+  };
+
   let state;
   try { state = JSON.parse(localStorage.getItem(KEY)); } catch (e) { state = null; }
   if (!state) state = JSON.parse(JSON.stringify(EXAMPLE));
@@ -421,13 +436,13 @@ footer { font-size: .8rem; color: var(--muted); }
       const range = t.upTo == null ? `أكثر من ${from}` : `${from + 1} – ${t.upTo}`;
       from = t.upTo;
       return `<tr><td>${range}</td>
-        <td><input type="number" step="0.01" min="0" id="tw${i}" data-i="${i}" data-f="w" value="${t.w}"></td>
-        <td><input type="number" step="0.01" min="0" id="ts${i}" data-i="${i}" data-f="s" value="${t.s}"></td></tr>`;
+        <td><input type="text" class="numin" inputmode="decimal" id="tw${i}" data-i="${i}" data-f="w" value="${t.w}"></td>
+        <td><input type="text" class="numin" inputmode="decimal" id="ts${i}" data-i="${i}" data-f="s" value="${t.s}"></td></tr>`;
     }).join('');
   }
   $('tariffBody').addEventListener('input', (e) => {
     const { i, f } = e.target.dataset;
-    const v = parseFloat(e.target.value);
+    const v = num(e.target.value);
     if (!isNaN(v)) { state.tariff[i][f] = v; state.example = false; onChange(); }
   });
 
@@ -459,7 +474,9 @@ footer { font-size: .8rem; color: var(--muted); }
   const label = (v) => ({ ok: 'سليم', bad: 'فيه تسرّب' }[v] || 'ما فحصت');
 
   function analyze() {
-    const r1 = parseFloat(state.r1), r2 = parseFloat(state.r2);
+    const bad = (k) => String(state[k] || '').trim() !== '' && !isFinite(num(state[k]));
+    if (bad('r1') || bad('r2')) return { status: 'nan' };
+    const r1 = num(state.r1), r2 = num(state.r2);
     const t1 = Date.parse(state.t1), t2 = Date.parse(state.t2);
     if (!isFinite(r1) || !isFinite(r2) || !isFinite(t1) || !isFinite(t2)) return { status: 'missing' };
     const hours = (t2 - t1) / 3.6e6;
@@ -494,6 +511,7 @@ footer { font-size: .8rem; color: var(--muted); }
     $('nums').hidden = a.status !== 'done';
     const ex = state.example ? ' <span class="badge">مثال</span>' : '';
     if (a.status === 'missing') { v.className = 'verdict none'; v.innerHTML = '<p>اكتب القراءتين ووقت كل وحدة، وتطلع النتيجة هنا.</p>'; return; }
+    if (a.status === 'nan') { v.className = 'verdict warn'; v.innerHTML = '<h3>القراءة فيها شي غلط</h3><p>اكتب الأرقام بس، والفاصلة بين الأسود والأحمر نقطة أو فاصلة. مثال: <span dir="ltr">1234.567</span></p>'; return; }
     if (a.status === 'time') { v.className = 'verdict warn'; v.innerHTML = '<h3>الوقت غلط</h3><p>وقت القراءة الثانية لازم يكون بعد الأولى.</p>'; return; }
     if (a.status === 'reverse') { v.className = 'verdict warn'; v.innerHTML = '<h3>القراءة الثانية أقل من الأولى</h3><p>راجع الأرقام، يمكن انعكست القراءتين أو فيه رقم ناقص.</p>'; return; }
     const tank = state.system === 'tank';
@@ -522,8 +540,8 @@ footer { font-size: .8rem; color: var(--muted); }
     L.push(`نظام البيت: ${tank ? 'خزان أرضي وخزان علوي' : 'مباشر من العدّاد'}`);
     L.push('');
     L.push('فحص العدّاد (بدون أي استخدام' + (tank ? '، والخزان الأرضي مليان' : '') + '):');
-    L.push(`- القراءة الأولى: ${state.r1 || '—'} م³ الساعة ${fmtTime(state.t1)}`);
-    L.push(`- القراءة الثانية: ${state.r2 || '—'} م³ الساعة ${fmtTime(state.t2)}`);
+    L.push(`- القراءة الأولى: ${isFinite(num(state.r1)) ? num(state.r1).toFixed(3) : '—'} م³ الساعة ${fmtTime(state.t1)}`);
+    L.push(`- القراءة الثانية: ${isFinite(num(state.r2)) ? num(state.r2).toFixed(3) : '—'} م³ الساعة ${fmtTime(state.t2)}`);
     if (a.status === 'done') {
       L.push(`- الفرق: ${fmt(a.liters, 0)} لتر خلال ${fmt(a.hours, 1)} ساعة = ${fmt(a.lh, 1)} لتر/ساعة`);
       L.push(`- التقدير الشهري: ${fmt(a.m3month, 1)} م³، تقريباً ${fmt(a.sar, 0)} ريال زيادة على الفاتورة`);
@@ -548,7 +566,7 @@ footer { font-size: .8rem; color: var(--muted); }
     $('summary').textContent = L.join('\n');
   }
 
-  const toLatin = (s) => (s || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d]/g, '');
+  const toLatin = (s) => (s || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[^\d]/g, '');
 
   function leadText() {
     const l = state.lead || {};
@@ -602,6 +620,7 @@ footer { font-size: .8rem; color: var(--muted); }
     $('howtoTank').hidden = !tank;
     $('howtoDirect').hidden = tank;
     $('tankTests').hidden = !tank;
+    $('safetyTank').hidden = !tank;
     $('quickNo').textContent = tank ? '٤' : '٣';
     $('sumNo').textContent = tank ? '٥' : '٤';
     $('leadNo').textContent = tank ? '٦' : '٥';
@@ -611,7 +630,7 @@ footer { font-size: .8rem; color: var(--muted); }
     save();
     applySystem();
     const a = analyze();
-    renderMeter(parseFloat(state.r2) || parseFloat(state.r1));
+    renderMeter(isFinite(num(state.r2)) ? num(state.r2) : num(state.r1));
     renderVerdict(a);
     renderSummary(a);
     renderLead(a);
@@ -641,7 +660,7 @@ footer { font-size: .8rem; color: var(--muted); }
     if (state.example) { state.example = false; }
     state[k] = $(k).value; onChange();
   }));
-  $('usual').addEventListener('input', () => { state.usual = Math.max(0, parseFloat($('usual').value) || 0); onChange(); });
+  $('usual').addEventListener('input', () => { state.usual = Math.max(0, num($('usual').value) || 0); onChange(); });
   $('sewer').addEventListener('change', () => { state.sewer = $('sewer').checked; onChange(); });
   document.querySelectorAll('[data-now]').forEach(b => b.addEventListener('click', () => {
     const d = new Date(); d.setSeconds(0, 0);
