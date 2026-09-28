@@ -2,7 +2,7 @@
 
 ## ١. النشر على GitHub Pages
 
-1. افتح `index.html` وحط رقم الواتساب اللي تستقبل عليه الطلبات في `LEADS_WHATSAPP`، بالصيغة الدولية بدون + (مثال: `966512345678`).
+1. رقم استقبال الطلبات مضاف في `LEADS_WHATSAPP` داخل `index.html` (`966502140821`). لو تبغى تغيّره، عدّله هناك بالصيغة الدولية بدون +.
 2. في GitHub: Settings ← Pages ← Source: `Deploy from a branch` ← Branch: `main` ومجلد `/ (root)` ← Save.
 3. بعد دقيقة أو دقيقتين يصير الرابط:
    `https://naiiif83.github.io/leak-check/`
