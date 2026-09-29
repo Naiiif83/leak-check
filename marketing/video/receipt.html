@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>فحص تسرّب العدّاد: الفاتورة</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #16181d; color: #f2f2ee; font-family: "Readex Pro", sans-serif; }
+.t { position: absolute; left: 80px; right: 80px; text-align: center; will-change: transform, opacity; }
+#h1 { top: 640px; font-size: 110px; font-weight: 700; line-height: 1.2; }
+#h1 span { color: #ff6b4a; }
+
+#printer { position: absolute; left: 140px; right: 140px; top: 170px; height: 120px; background: #2b2f38; border-radius: 30px 30px 14px 14px; box-shadow: inset 0 -10px 0 #20232a; }
+#printer::after { content: ""; position: absolute; left: 60px; right: 60px; bottom: 26px; height: 14px; border-radius: 7px; background: #0b0c0f; }
+#paperWrap { position: absolute; left: 200px; right: 200px; top: 262px; height: 1400px; overflow: hidden; }
+#paper { position: absolute; left: 0; right: 0; top: 0; background: #fbfaf5; color: #1a1a1a; padding: 40px 50px 60px;
+  font-family: "IBM Plex Mono", "Readex Pro", monospace;
+  -webkit-mask: linear-gradient(#000 calc(100% - 24px), transparent calc(100% - 24px)), conic-gradient(from 135deg at top, #000 90deg, transparent 0) bottom / 32px 24px repeat-x;
+  mask: linear-gradient(#000 calc(100% - 24px), transparent calc(100% - 24px)), conic-gradient(from 135deg at top, #000 90deg, transparent 0) bottom / 32px 24px repeat-x; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; font-family: "Readex Pro", sans-serif; font-size: 40px; padding: 14px 0; border-bottom: 3px dashed #d9d6cc; }
+.row b { font: 600 46px "IBM Plex Mono", monospace; direction: ltr; white-space: nowrap; }
+.head { text-align: center; font: 700 44px "Readex Pro", sans-serif; padding-bottom: 20px; border-bottom: 4px solid #1a1a1a; }
+.total { display: block; text-align: center; padding: 30px 0 10px; border-bottom: 0; }
+.total span { display: block; font-size: 40px; }
+.total b { display: block; white-space: nowrap; font: 700 86px/1.1 "Readex Pro", sans-serif; color: #d4371f; margin-top: 10px; }
+.note { font-family: "Readex Pro", sans-serif; font-size: 26px; color: #777; text-align: center; line-height: 1.5; padding-top: 16px; }
+#stamp { position: absolute; left: 50%; top: 1420px; transform: translateX(-50%) rotate(-8deg); border: 8px solid #ff6b4a; color: #ff6b4a; font-size: 84px; font-weight: 700; padding: 6px 36px; border-radius: 18px; white-space: nowrap; opacity: 0; background: rgba(22,24,29,.85); }
+
+#cta { top: 430px; font-size: 96px; font-weight: 700; line-height: 1.25; }
+#cta2 { top: 720px; font-size: 52px; color: #9aa0ac; }
+#qrbox { position: absolute; left: 50%; top: 850px; width: 380px; height: 380px; margin-left: -190px; background: #fff; border-radius: 34px; padding: 30px; }
+#qrbox svg { width: 100%; height: 100%; display: block; }
+#url { position: absolute; left: 50%; top: 1300px; transform: translateX(-50%); direction: ltr; white-space: nowrap; font: 600 40px "IBM Plex Mono", monospace; color: #16181d; background: #ff6b4a; border-radius: 22px; padding: 20px 30px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="t" id="h1">كم يكلّفك تسرّب<br><span>ما تشوفه؟</span></div>
+
+  <div id="printer"></div>
+  <div id="paperWrap"><div id="paper">
+    <div class="head">فاتورة تسرّب مخفي</div>
+    <div class="row" data-at="3.2"><span>تسرّب بالساعة</span><b>30 L</b></div>
+    <div class="row" data-at="4.2"><span>باليوم (× 24)</span><b>720 L</b></div>
+    <div class="row" data-at="5.2"><span>بالشهر (× 30)</span><b>21.6 m³</b></div>
+    <div class="row" data-at="6.3"><span>زيادة الفاتورة بالشهر</span><b>≈ 97 SAR</b></div>
+    <div class="row total" data-at="7.6"><span>المجموع بالسنة</span><b>≈ 1,167 ريال</b></div>
+    <div class="note" data-at="8.6">حسب التعرفة السكنية الرسمية مع الصرف الصحي،<br>لبيت استهلاكه المعتاد 25 م³ بالشهر</div>
+  </div></div>
+  <div id="stamp">وأنت ما تدري</div>
+
+  <div class="t" id="cta">تأكد إن ما عندك<br>واحد في بيتك</div>
+  <div class="t" id="cta2">فحص العدّاد في ساعة، مجاناً</div>
+  <div id="qrbox"></div>
+  <div id="url">naiiif83.github.io/leak-check</div>
+</div>
+<script>
+window.DURATION = 16;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+const back = (x) => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const rows = [...document.querySelectorAll('#paper [data-at]')];
+const paper = $('paper');
+
+window.render = function (t) {
+  const hi = easeOut(prog(t, 0.2, 0.8)), ho = prog(t, 2.0, 2.4);
+  $('h1').style.opacity = Math.min(hi, 1 - ho);
+  $('h1').style.transform = `translateY(${(1 - hi) * 40 - ho * 60}px)`;
+
+  const show = t >= 2.3 && t < 12.3;
+  const pOut = prog(t, 11.9, 12.3);
+  $('printer').style.opacity = t < 2.3 ? 0 : 1 - pOut;
+  $('paperWrap').style.opacity = t < 2.3 ? 0 : 1 - pOut;
+
+  // الورقة تطلع من الطابعة: كل سطر يظهر، والورقة تنزل بمقدار طوله
+  let shown = 0;
+  rows.forEach(r => {
+    const at = +r.dataset.at, p = prog(t, at, at + 0.35);
+    r.style.opacity = p;
+    if (p > 0) shown += r.offsetHeight * easeOut(p);
+  });
+  const head = paper.querySelector('.head').offsetHeight + 40;
+  const visible = head * easeOut(prog(t, 2.4, 2.9)) + shown + 40;
+  $('paperWrap').style.height = Math.min(visible, paper.offsetHeight) + 'px';
+  // اهتزاز خفيف وقت الطباعة
+  const printing = rows.some(r => { const at = +r.dataset.at; return t > at && t < at + 0.35; });
+  $('printer').style.transform = printing ? `translateX(${Math.sin(t * 120) * 2}px)` : '';
+
+  const s = prog(t, 9.6, 9.9), so = prog(t, 11.9, 12.3);
+  $('stamp').style.opacity = t < 9.6 ? 0 : 1 - so;
+  $('stamp').style.transform = `translateX(-50%) rotate(-8deg) scale(${t < 9.6 ? 1.8 : 1.8 - 0.8 * easeOut(s)})`;
+
+  const c = easeOut(prog(t, 12.4, 12.9));
+  $('cta').style.opacity = c; $('cta').style.transform = `translateY(${(1 - c) * 40}px)`;
+  $('cta2').style.opacity = easeOut(prog(t, 12.9, 13.3));
+  const q = prog(t, 13.3, 13.7);
+  $('qrbox').style.opacity = q; $('qrbox').style.transform = `scale(${q ? 0.7 + 0.3 * back(q) : 0.7})`;
+  const u = easeOut(prog(t, 13.7, 14.2));
+  $('url').style.opacity = u; $('url').style.transform = `translateX(-50%) translateY(${(1 - u) * 30}px)`;
+};
+window.render(0);
+</script>
+</body>
+</html>

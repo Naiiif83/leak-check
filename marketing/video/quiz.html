@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>فحص تسرّب العدّاد: صح ولا غلط</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #3b1f8f; color: #fff; font-family: "Readex Pro", sans-serif; }
+#rays { position: absolute; left: 50%; top: 50%; width: 3000px; height: 3000px; margin: -1500px 0 0 -1500px;
+  background: repeating-conic-gradient(from 0deg, rgba(255,255,255,.05) 0 10deg, transparent 10deg 20deg); }
+.t { position: absolute; left: 80px; right: 80px; text-align: center; will-change: transform, opacity; }
+
+#title { top: 560px; font-size: 150px; font-weight: 700; line-height: 1.1; }
+#title span { color: #ffd84a; }
+
+#qno { top: 250px; font: 600 48px "IBM Plex Mono", monospace; color: #c7b8ff; }
+#card { position: absolute; left: 80px; right: 80px; top: 360px; min-height: 420px; background: #fff; color: #1d1140; border-radius: 40px;
+  padding: 60px 56px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 76px; font-weight: 700; line-height: 1.35;
+  box-shadow: 0 30px 0 #25126a; }
+#timer { position: absolute; left: 120px; right: 120px; top: 850px; height: 18px; border-radius: 9px; background: rgba(255,255,255,.2); overflow: hidden; }
+#timer i { position: absolute; top: 0; bottom: 0; right: 0; background: #ffd84a; }
+.btn { position: absolute; top: 950px; width: 420px; height: 190px; border-radius: 34px; display: flex; align-items: center; justify-content: center;
+  font-size: 100px; font-weight: 700; background: rgba(255,255,255,.12); border: 5px solid rgba(255,255,255,.35); }
+#bTrue { right: 80px; }
+#bFalse { left: 80px; }
+#why { top: 1220px; font-size: 56px; line-height: 1.4; color: #efeaff; }
+
+#cta { top: 430px; font-size: 104px; font-weight: 700; line-height: 1.2; }
+#cta2 { top: 720px; font-size: 52px; color: #c7b8ff; }
+#qrbox { position: absolute; left: 50%; top: 850px; width: 380px; height: 380px; margin-left: -190px; background: #fff; border-radius: 34px; padding: 30px; }
+#qrbox svg { width: 100%; height: 100%; display: block; }
+#url { position: absolute; left: 50%; top: 1300px; transform: translateX(-50%); direction: ltr; white-space: nowrap; font: 600 40px "IBM Plex Mono", monospace; color: #1d1140; background: #ffd84a; border-radius: 22px; padding: 20px 30px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="rays"></div>
+  <div class="t" id="title"><span>صح</span><br>ولا غلط؟</div>
+
+  <div class="t" id="qno">1/3</div>
+  <div id="card"><span id="q"></span></div>
+  <div id="timer"><i id="bar"></i></div>
+  <div class="btn" id="bTrue">صح</div>
+  <div class="btn" id="bFalse">غلط</div>
+  <div class="t" id="why"></div>
+
+  <div class="t" id="cta">اختبر بيتك<br>بنفسك</div>
+  <div class="t" id="cta2">فحص العدّاد في ساعة، مجاناً</div>
+  <div id="qrbox"></div>
+  <div id="url">naiiif83.github.io/leak-check</div>
+</div>
+<script>
+window.DURATION = 18;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+const back = (x) => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+// كل سؤال: يبدأ، ويكشف الجواب بعد 2.3 ثانية
+const QS = [
+  { at: 2.0, q: 'ما فيه ماء على الأرض؟<br>يعني ما عندك تسرّب', ans: false, why: 'أغلب التسرّب مخفي:<br>تحت البلاط أو في الخزان' },
+  { at: 6.0, q: 'العدّاد يقدر يكشف لك<br>التسرّب وأنت في بيتك', ans: true, why: 'سكّر الماء، وإذا العدّاد يلف<br>فعندك تسرّب' },
+  { at: 10.0, q: 'التسرّب الصغير<br>ما يأثر على الفاتورة', ans: false, why: 'يرفعك لشريحة أغلى،<br>فيزيد سعر كل متر' },
+];
+const REVEAL = 2.3;
+
+window.render = function (t) {
+  $('rays').style.transform = `rotate(${t * 6}deg)`;
+  const ti = back(prog(t, 0.1, 0.6)), to = prog(t, 1.7, 2.0);
+  $('title').style.opacity = t < 0.1 ? 0 : 1 - to;
+  $('title').style.transform = `scale(${0.5 + 0.5 * ti})`;
+
+  let q = null;
+  QS.forEach(x => { if (t >= x.at) q = x; });
+  const inQuiz = q && t < 14.0;
+  ['qno', 'card', 'timer', 'bTrue', 'bFalse', 'why'].forEach(id => { $(id).style.display = inQuiz ? '' : 'none'; });
+  if (inQuiz) {
+    const i = QS.indexOf(q), lt = t - q.at;
+    $('qno').textContent = `${i + 1}/3`;
+    $('q').innerHTML = q.q;
+    const ci = easeOut(prog(lt, 0, 0.35)), co = prog(lt, 3.7, 4.0);
+    $('card').style.opacity = Math.min(ci, 1 - co);
+    $('card').style.transform = `translateX(${(1 - ci) * 900 - co * 900}px) rotate(${(1 - ci) * 8}deg)`;
+    $('qno').style.opacity = Math.min(ci, 1 - co);
+    $('bar').style.width = (100 - 100 * prog(lt, 0.3, REVEAL)) + '%';
+    $('timer').style.opacity = lt < REVEAL ? Math.min(ci, 1) : 1 - prog(lt, REVEAL, REVEAL + 0.3);
+    const revealed = lt >= REVEAL;
+    const pr = back(prog(lt, REVEAL, REVEAL + 0.3));
+    [['bTrue', true], ['bFalse', false]].forEach(([id, v]) => {
+      const el = $(id), right = revealed && v === q.ans;
+      const bi = easeOut(prog(lt, 0.3, 0.6));
+      el.style.opacity = Math.min(bi, 1 - co) * (revealed && !right ? 0.35 : 1);
+      el.style.background = right ? (v ? '#1fbf6a' : '#ef4b3f') : 'rgba(255,255,255,.12)';
+      el.style.borderColor = right ? '#fff' : 'rgba(255,255,255,.35)';
+      el.style.transform = `translateY(${(1 - bi) * 60}px) scale(${right ? 1 + 0.12 * Math.sin(pr * Math.PI) : 1})`;
+    });
+    $('why').innerHTML = q.why;
+    const wi = easeOut(prog(lt, REVEAL + 0.3, REVEAL + 0.7));
+    $('why').style.opacity = Math.min(wi, 1 - co);
+    $('why').style.transform = `translateY(${(1 - wi) * 30}px)`;
+  }
+
+  const c = easeOut(prog(t, 14.1, 14.6));
+  $('cta').style.opacity = c; $('cta').style.transform = `scale(${0.8 + 0.2 * c})`;
+  $('cta2').style.opacity = easeOut(prog(t, 14.6, 15.0));
+  const qr = prog(t, 15.0, 15.4);
+  $('qrbox').style.opacity = qr; $('qrbox').style.transform = `scale(${qr ? 0.7 + 0.3 * back(qr) : 0.7})`;
+  const u = easeOut(prog(t, 15.4, 15.9));
+  $('url').style.opacity = u; $('url').style.transform = `translateX(-50%) translateY(${(1 - u) * 30}px)`;
+};
+window.render(0);
+</script>
+</body>
+</html>
