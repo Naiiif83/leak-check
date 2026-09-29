@@ -50,6 +50,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #081a2
 #url { top: 1420px; left: 50%; right: auto; transform: translateX(-50%); direction: ltr; font: 600 40px "IBM Plex Mono", monospace; background: #136f8f; border-radius: 22px; padding: 20px 30px; white-space: nowrap; }
 
 #drop { position: absolute; left: 50%; top: 0; width: 60px; margin-left: -30px; opacity: 0; }
+
+/* بدون باركود ورابط: الرابط في البايو */
+#qrbox { display: none !important; }
+#url { top: 1070px !important; font: 700 66px/1.2 "Readex Pro", sans-serif !important; direction: rtl !important; padding: 28px 48px !important; display: flex; align-items: center; gap: 22px; }
 </style>
 </head>
 <body>
@@ -77,7 +81,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #081a2
   <div class="abs" id="cta1">افحص بيتك<br>بنفسك في ساعة</div>
   <div class="abs muted" id="cta2">مجاني · من جوالك · بدون فني</div>
   <div class="abs" id="qrbox"></div>
-  <div class="abs" id="url">naiiif83.github.io/leak-check</div>
+  <div class="abs" id="url">الرابط في البايو <svg width="54" height="54" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 L12 20 M5 11 L12 4 L19 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 </div>
 
 <script>
