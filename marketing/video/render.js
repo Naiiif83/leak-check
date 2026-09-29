@@ -1,31 +1,33 @@
 // يصوّر promo.html إطار إطار ويحوله MP4 بمقاس 9:16 مع الموسيقى.
 // الموسيقى: python3 music.py music.wav (تنبني مرة وحدة، وتنضاف تلقائياً)
-// الاستخدام: node render.js --out promo.mp4
+// الاستخدام: node render.js --page promo.html --music music.wav --out promo.mp4
 const { chromium } = require("playwright");
 const { spawn, execSync } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 
 const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > -1 ? process.argv[i + 1] : d; };
-const out = path.resolve(arg("out", path.join(__dirname, "promo.mp4")));
+const pageFile = arg("page", "promo.html");
+const base = pageFile.replace(/\.html$/, "");
+const out = path.resolve(arg("out", path.join(__dirname, base + ".mp4")));
 const fps = +arg("fps", 30);
-const music = path.resolve(arg("music", path.join(__dirname, "music.wav")));
+const music = path.resolve(arg("music", path.join(__dirname, base === "promo" ? "music.wav" : base + ".wav")));
 const ffmpeg = arg("ffmpeg", process.env.FFMPEG || execSync("python3 -c \"import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())\"").toString().trim());
 const still = arg("still", null); // --still 5.5 يصوّر إطار واحد للمعاينة
 
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-  await page.goto("file://" + path.join(__dirname, "promo.html"));
+  await page.goto("file://" + path.join(__dirname, pageFile));
   await page.evaluate(() => document.fonts.ready);
   const qr = fs.readFileSync(path.join(__dirname, "qr.svg"), "utf8");
-  await page.evaluate(s => { document.getElementById("qrbox").innerHTML = s; }, qr);
+  await page.evaluate(s => { const q = document.getElementById("qrbox"); if (q) q.innerHTML = s; }, qr);
   console.log("fonts loaded:", await page.evaluate(() => document.fonts.check('700 40px "Readex Pro"')));
 
   if (still !== null) {
     for (const t of still.split(",")) {
       await page.evaluate(x => window.render(x), +t);
-      await page.screenshot({ path: path.join(__dirname, `still-${t}.png`) });
+      await page.screenshot({ path: path.join(__dirname, `still-${base}-${t}.png`) });
     }
     await browser.close();
     return;
